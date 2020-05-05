@@ -7,7 +7,7 @@ namespace GradeManageSystem.Models
 {
     public class Student : IAccount
     {
-        public Student(string id, string password, int authority,
+        public Student(string id, string password, int authority, string grade,
             UserInformation userInformation, Dictionary<Course, int> courseGrade)
         {
             Id = id;
@@ -16,15 +16,24 @@ namespace GradeManageSystem.Models
             UserInformation = userInformation;
             Courses = new List<Course>();
             CourseGrades = new Dictionary<string, int>();
-            foreach (var course in courseGrade.Keys)
+            Grade = grade;
+            if (courseGrade != null)
             {
-                Courses.Add(course);
-                CourseGrades.Add(course.Id, courseGrade[course]);
+                foreach (var course in courseGrade.Keys)
+                {
+                    Courses.Add(course);
+                    CourseGrades.Add(course.Id, courseGrade[course]);
+                }
+            }
+            else
+            {
+                CourseGrades = new Dictionary<string, int>();
             }
         }
         public string Id { get; set; }
         public string Password { get; set; }
         public int Authority { get; set; }
+        public string Grade { get; set; }
         public UserInformation UserInformation { get; set; }
         public List<Course> Courses { get; set; }
         public Dictionary<string, int> CourseGrades { get; set; }
