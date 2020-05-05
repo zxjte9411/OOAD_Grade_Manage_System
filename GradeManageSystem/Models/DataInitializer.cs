@@ -12,7 +12,7 @@ namespace GradeManageSystem.Models
         {
             Random random = new Random();
             List<UserInformation> userInformations = new List<UserInformation>();
-            List<Grade> grades = new List<Grade>();
+            List<int> grades = new List<int>();
             List<IAccount> accounts = new List<IAccount>();
             List<Course> courses = new List<Course>();
             userInformations.Add(new UserInformation("admin", "07-53535113", "Taiwan (ROC)", new DateTime(1999, 1, 1), "男"));
@@ -26,13 +26,13 @@ namespace GradeManageSystem.Models
             for (int i = 0; i < 5; i++)
                 courses.Add(new Course(i.ToString(), "course" + i.ToString(), 109, 2));
 
-            grades.Add(new Grade(59));
-            grades.Add(new Grade(60));
-            grades.Add(new Grade(99));
-            grades.Add(new Grade(100));
-            grades.Add(new Grade(98));
+            grades.Add(59);
+            grades.Add(60);
+            grades.Add(99);
+            grades.Add(100);
+            grades.Add(98);
 
-            Dictionary<Course, Grade> CourseGrades = new Dictionary<Course, Grade>();
+            Dictionary<Course, int> CourseGrades = new Dictionary<Course, int>();
             for (int i = 0; i < 5; i++)
                 CourseGrades.Add(courses[i], grades[i]);
 
