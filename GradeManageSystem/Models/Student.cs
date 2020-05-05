@@ -7,7 +7,7 @@ namespace GradeManageSystem.Models
 {
     public class Student : IAccount
     {
-        public Student(string id, string password, string authority,
+        public Student(string id, string password, int authority,
             UserInformation userInformation, Dictionary<Course, Grade> CourseGrade)
         {
             Id = id;
@@ -18,7 +18,7 @@ namespace GradeManageSystem.Models
         }
         public string Id { get; set; }
         public string Password { get; set; }
-        public string Authority { get; set; }
+        public int Authority { get; set; }
         public UserInformation UserInformation { get; set; }
         public Dictionary<Course, Grade> CourseGrades { get; set; }
         

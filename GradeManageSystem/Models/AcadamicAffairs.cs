@@ -7,7 +7,7 @@ namespace GradeManageSystem.Models
 {
     public class AcadamicAffairs : IAccount
     {
-        public AcadamicAffairs(string id, string password, string authority, UserInformation userInformation)
+        public AcadamicAffairs(string id, string password, int authority, UserInformation userInformation)
         {
             Id = id;
             Password = password;
@@ -16,7 +16,7 @@ namespace GradeManageSystem.Models
         }
         public string Id { get; set; }
         public string Password { get; set; }
-        public string Authority { get; set; }
+        public int Authority { get; set; }
         public UserInformation UserInformation { get; set; }
     }
 }

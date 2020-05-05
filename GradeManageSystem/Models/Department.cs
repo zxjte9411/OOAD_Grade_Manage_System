@@ -7,14 +7,14 @@ namespace GradeManageSystem.Models
 {
     public class Department
     {
-        public Department(int id, string name, List<IAccount> accounts, List<Course> courses)
+        public Department(string id, string name, List<IAccount> accounts, List<Course> courses)
         {
             Id = id;
             Name = name;
             Accounts = accounts;
             Courses = courses;
         }
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public List<IAccount> Accounts { get; set; }
         public List<Course> Courses { get; set; }
