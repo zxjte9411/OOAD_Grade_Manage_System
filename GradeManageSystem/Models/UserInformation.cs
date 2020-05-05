@@ -9,6 +9,10 @@ namespace GradeManageSystem.Models
 {
     public class UserInformation
     {
+        public UserInformation()
+        {
+        }
+
         public UserInformation(string name, string phone, string address, DateTime birthday, string gender)
         {
             Name = name;
