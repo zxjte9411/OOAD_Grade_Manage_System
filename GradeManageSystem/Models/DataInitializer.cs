@@ -41,9 +41,9 @@ namespace GradeManageSystem.Models
             accounts.Add(new Teacher("12345", "test", 2, userInformations[2], courses));
             accounts.Add(new Teacher("24689", "test", 2, userInformations[3], courses));
             accounts.Add(new Teacher("54321", "test", 2, userInformations[4], courses));
-            accounts.Add(new Student("103380001", "test", 3, userInformations[5], CourseGrades));
-            accounts.Add(new Student("103380023", "test", 3, userInformations[6], CourseGrades));
-            accounts.Add(new Student("103380047", "test", 3, userInformations[7], CourseGrades));
+            accounts.Add(new Student("103380001", "test", 3, "1", userInformations[5], CourseGrades));
+            accounts.Add(new Student("103380023", "test", 3, "2", userInformations[6], CourseGrades));
+            accounts.Add(new Student("103380047", "test", 3, "3", userInformations[7], CourseGrades));
 
             for (int i = 0; i < 5; i++)
             {
