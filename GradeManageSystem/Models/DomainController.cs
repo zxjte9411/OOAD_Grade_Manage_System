@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GradeManageSystem.Models
@@ -26,15 +27,22 @@ namespace GradeManageSystem.Models
         public List<Department> Departments { get; set; }
 
         public Login Login { get; set; }
-        
-        public Dictionary<string, string> GetTeacherCourses(string teacherId)
+
+        public Teacher GetTeacher(string teacherId)
         {
             foreach (var department in Departments)
                 if (department.Accounts.Any(account => account.Id == teacherId))
-                {
-                    Teacher teacher = (Teacher)department.Accounts.Find(teacher => teacher.Id == teacherId);
-                    return teacher.GetSemesterCourses(Year, Semester);
-                }
+                    return (Teacher)department.Accounts.Find(teacher => teacher.Id == teacherId);
+
+            return null;
+        }
+        
+        public Dictionary<string, string> GetTeacherCoursesLastSemester(string teacherId)
+        {
+            Teacher teacher = GetTeacher(teacherId);
+
+            if (teacher != null)
+                return teacher.GetSemesterCourses(Year, Semester);
 
             return null;
         }
@@ -47,6 +55,57 @@ namespace GradeManageSystem.Models
                 departments.Add(dep.Id, dep.Name);
 
             return departments;
+        }
+
+        //id, name, department_name, grade, score, year, semester
+        public List<Dictionary<string, string>> GetCourseGradeList(string courseId, int? year, int? semester)
+        {
+            List<Dictionary<string, string>> courseGrades = new List<Dictionary<string, string>>();
+            int selectYear = year ?? Year;
+            int selectSemester = semester ?? Semester;
+            List<Student> students = GetStudentsOfCourse(courseId, selectYear, selectSemester);
+
+            foreach (var department in Departments)
+                foreach (var student in students)
+                {
+                    if (department.Accounts.Any(account => account == student))
+                    {
+                        Dictionary<string, string> courseGrade = new Dictionary<string, string>();
+                        courseGrade.Add("id", student.Id.ToString());
+                        courseGrade.Add("name", student.UserInformation.Name.ToString());
+                        courseGrade.Add("department_name", department.Name.ToString());
+                        courseGrade.Add("grade", student.Grade.ToString());
+                        courseGrade.Add("score", student.CourseGrades[courseId].ToString());
+                        courseGrade.Add("year", selectYear.ToString());
+                        courseGrade.Add("semester", selectSemester.ToString());
+                        courseGrades.Add(courseGrade);
+                    }
+                }
+
+            return courseGrades;
+        }
+
+        public List<Student> GetStudentsOfCourse(string courseId, int year, int semester)
+        {
+            List<Student> students = new List<Student>();
+
+            foreach (var department in Departments)
+                students.AddRange(department.GetStudentsOfCourse(courseId, year, semester));
+
+            return students;
+        }
+
+        public void UpdateStudentsGrade(string courseId, Dictionary<string, string> gradeList)
+        {
+            List<Student> students = GetStudentsOfCourse(courseId, Year, Semester);
+
+            foreach (var student in students)
+            {
+                if (int.TryParse(gradeList[student.Id], out int score))
+                    student.CourseGrades[courseId] = score;
+                else
+                    throw new Exception("score parse to int fail");
+            }
         }
     }
 }

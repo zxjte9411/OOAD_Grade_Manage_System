@@ -20,12 +20,11 @@ namespace GradeManageSystem.Controller
 
         // GET: api/Courses/{teacher_id}
         [HttpGet("{teacherId}")]
-        public IActionResult GetTeacherAllCourses(string teacherId)
+        public IActionResult GetTeacherAllCoursesLastSemester(string? teacherId)
         {
-            var courses = _domainController.GetTeacherCourses(teacherId);
-            if (courses != null)
+            if (teacherId != null)
             {
-                return Ok(courses);
+                return Ok(_domainController.GetTeacherCoursesLastSemester(teacherId));
             }
 
             return NotFound();

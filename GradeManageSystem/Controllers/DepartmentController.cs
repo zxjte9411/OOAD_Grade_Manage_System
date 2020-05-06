@@ -21,6 +21,7 @@ namespace GradeManageSystem.Controllers
             _domainController = domainController;
         }
 
+        // GET: api/departments
         [HttpGet]
         public IActionResult GetAllDepartments()
         {

@@ -7,6 +7,10 @@ namespace GradeManageSystem.Models
 {
     public class Student : IAccount
     {
+        public Student()
+        {
+        }
+
         public Student(string id, string password, int authority, string grade,
             UserInformation userInformation, Dictionary<Course, int> courseGrade)
         {
@@ -24,10 +28,6 @@ namespace GradeManageSystem.Models
                     Courses.Add(course);
                     CourseGrades.Add(course.Id, courseGrade[course]);
                 }
-            }
-            else
-            {
-                CourseGrades = new Dictionary<string, int>();
             }
         }
         public string Id { get; set; }
