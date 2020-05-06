@@ -7,6 +7,15 @@ namespace GradeManageSystem.Models
 {
     public class AccountModel : IAccount
     {
+        public AccountModel() { }
+        public AccountModel(string id, string password, int authority, UserInformation userInformation)
+        {
+            Id = id;
+            Password = password;
+            Authority = authority;
+            UserInformation = userInformation;
+        }
+
         public string Id { get; set; }
         public string Password { get; set; }
         public int Authority { get; set; }
