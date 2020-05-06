@@ -10,7 +10,8 @@ namespace UnitTest
         [TestMethod]
         public void TestConstructor()
         {
-            UserInformation userInformation = new UserInformation("0912345678", "AAAA", new DateTime(2000, 7, 15), "¨k");
+            UserInformation userInformation = new UserInformation("test", "0912345678", "AAAA", new DateTime(2000, 7, 15), "¨k");
+            Assert.AreEqual("test", userInformation.Name);
             Assert.AreEqual("0912345678", userInformation.Phone);
             Assert.AreEqual("AAAA", userInformation.Address);
             Assert.AreEqual(new DateTime(2000, 7, 15), userInformation.Birthday);
