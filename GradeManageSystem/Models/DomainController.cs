@@ -48,5 +48,47 @@ namespace GradeManageSystem.Models
 
             return departments;
         }
+
+        public int FindMaxId(List<IAccount> accounts)
+        {
+            int maxValue = int.MinValue;
+            accounts.ForEach((account) => 
+            {
+                if (account.Authority == 3)
+                {
+                    if (maxValue < int.Parse(account.Id))
+                        maxValue = int.Parse(account.Id.Substring(6, 3));
+                }
+                else if (account.Authority == 2)
+                {/*TODO*/}
+                else if (account.Authority == 1)
+                {/*TODO*/}
+                else if (account.Authority == 0)
+                {/*TODO*/}
+            });
+
+            return maxValue;
+        }
+
+        public IAccount CreateAccount(Department department, AccountModel newAccount)
+        {
+            if (newAccount.Authority == 3)
+            {
+                Student student = new Student(YEAR+ department.Id.PadLeft(3, '0'), "", 3, "1", newAccount.UserInformation, null);
+                string tempId = (FindMaxId(department.FindAccountByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); ;
+                student.Id += tempId;
+                student.Password = tempId;
+                department.Accounts.Add(student);
+                return student;
+            }
+            else if (newAccount.Authority == 2)
+            {/*TODO*/}
+            else if (newAccount.Authority == 1)
+            {/*TODO*/}
+            else if (newAccount.Authority == 0)
+            {/*TODO*/}
+
+            return null;
+        }
     }
 }
