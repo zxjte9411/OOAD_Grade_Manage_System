@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GradeManageSystem.Models;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace GradeManageSystem.Controllers
 {
@@ -20,7 +21,7 @@ namespace GradeManageSystem.Controllers
         }
 
         [HttpGet("{departmentId}")]
-        public IActionResult GetAccountsOfThisDepartment(int? departmentId)
+        public IActionResult GetAccountsByDepartmentId(int? departmentId)
         {
             if (departmentId != null)
             {
@@ -36,55 +37,78 @@ namespace GradeManageSystem.Controllers
         [HttpGet("{departmentId}/{id}")]
         public IActionResult GetAccount(int? departmentId, int? id)
         {
-            Department department = null;
             if (departmentId != null)
             {
-                foreach (var d in _domainController.Departments)
+                foreach (var department in _domainController.Departments)
                 {
-                    if (int.Parse(d.Id) == departmentId)
-                        department = d;
+                    IAccount account = null;
+                    if (int.Parse(department.Id) == departmentId)
+                    {
+                        account = department.FindAccountById(id.ToString());
+                        if (account != null)
+                            return Ok(account);
+                    }
                 }
             }
 
-            if (department != null)
-            {
-                foreach (var account in department.Accounts)
-                {
-                    if (int.Parse(account.Id) == id)
-                        return Ok(account);
-                }
-            }
             return NotFound();
         }
 
         [HttpPost("{departmentId}")]
-        public IActionResult CreateAccount(int? departmentId, AccountModel account)
+        public IActionResult CreateAccount(int? departmentId, AccountModel newAccount)
         {
             if (departmentId != null)
             {
+                IAccount account = null;
                 _domainController.Departments.ForEach((department) =>
                 {
-                    if(department.Id == department.Id)
+                    if(department.Id == departmentId.ToString())
                     {
-                        if (account.Authority == 3)
-                        {
-                            var student = new Student(account.Id, account.Password, account.Authority, "1", account.UserInformation, null);
-                            department.Accounts.Add(student);
-                        }
+                        account = _domainController.CreateAccount(department, newAccount);
                     }
                 });
-                return StatusCode(200);
+                return Ok(account);
             }
-            //"id": "103380001",
-            //    "password": "test",
-            //    "authority": 3,
-            //        "userInformation": {
-            //    "name": "s1",
-            //        "phone": "02-53535153",
-            //        "address": "Taiwan (ROC)",
-            //        "birthday": "1998-02-05T00:00:00",
-            //        "gender": "女"
-            //        },
+            return BadRequest();
+        }
+
+        [HttpPost("{departmentId}/{id}")]
+        public IActionResult UpdateAccountOfDepartment(string departmentId, string id, UserInformation userInformation)
+        {
+            if (departmentId != null && id != null)
+            {
+                foreach (var department in _domainController.Departments)
+                {
+                    if (department.Id == departmentId)
+                    {
+                        var account = department.FindAccountById(id);
+                        account.UserInformation = userInformation;
+                        return Ok(account);
+                    }
+                }
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPatch("{departmentId}/{id}")]
+        public IActionResult UpdateAccountPasswordOfDepartment(string departmentId, string id, [FromBody]JsonPatchDocument<IAccount> jsonPatchDocument)
+        {
+            if (departmentId != null && id != null)
+            {
+                if (jsonPatchDocument != null)
+                {
+                    foreach (var department in _domainController.Departments)
+                    {
+                        if (department.Id == departmentId)
+                        {
+                            var account =  department.FindAccountById(id);
+                            jsonPatchDocument.ApplyTo(account);
+                            return Ok(account);
+                        }
+                    }
+                }
+            }
             return BadRequest();
         }
     }

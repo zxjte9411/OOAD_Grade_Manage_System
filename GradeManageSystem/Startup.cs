@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using GradeManageSystem.Models;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+
 namespace GradeManageSystem
 {
     public class Startup
@@ -26,7 +28,7 @@ namespace GradeManageSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<DomainController>();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
