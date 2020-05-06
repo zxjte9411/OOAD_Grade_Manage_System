@@ -75,16 +75,6 @@ namespace GradeManageSystem.Controllers
                 });
                 return StatusCode(200);
             }
-            //"id": "103380001",
-            //    "password": "test",
-            //    "authority": 3,
-            //        "userInformation": {
-            //    "name": "s1",
-            //        "phone": "02-53535153",
-            //        "address": "Taiwan (ROC)",
-            //        "birthday": "1998-02-05T00:00:00",
-            //        "gender": "女"
-            //        },
             return BadRequest();
         }
     }
