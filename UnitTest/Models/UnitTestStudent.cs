@@ -21,11 +21,13 @@ namespace GradeManageSystem.Models.Tests
             courseGrades.Add(course, grade);
             Dictionary<string, int> courseGrade = new Dictionary<string, int>();
             courseGrade.Add(course.Id, grade);
-            Student student = new Student("102580039", "123456789", 3, info, courseGrades);
+            Student student = new Student("102580039", "123456789", 3, "1", info, courseGrades);
+            Student student2 = new Student("102580039", "123456789", 3, "1", info, null);
 
             Assert.AreEqual("102580039", student.Id);
             Assert.AreEqual("123456789", student.Password);
             Assert.AreEqual(3, student.Authority);
+            Assert.AreEqual("1", student.Grade);
             Assert.AreEqual(info, student.UserInformation);
             Assert.AreEqual(courseGrade[course.Id], student.CourseGrades[course.Id]);
             Assert.AreEqual(courses[0].Id, student.Courses[0].Id);
