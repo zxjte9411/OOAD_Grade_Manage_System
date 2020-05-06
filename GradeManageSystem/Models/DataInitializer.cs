@@ -24,7 +24,7 @@ namespace GradeManageSystem.Models
             userInformations.Add(new UserInformation("s2", "05-53535153", "Taiwan (ROC)", new DateTime(1997, 9, 6), "男"));
             userInformations.Add(new UserInformation("s3", "04-12345678", "Taiwan (ROC)", new DateTime(1997, 8, 10), "女"));
             for (int i = 0; i < 5; i++)
-                courses.Add(new Course(i.ToString(), "course" + i.ToString(), 109, 2));
+                courses.Add(new Course(i.ToString(), "course" + i.ToString(), 105 + i, 2));
 
             grades.Add(59);
             grades.Add(60);
