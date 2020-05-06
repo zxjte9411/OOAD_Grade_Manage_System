@@ -19,9 +19,9 @@ namespace GradeManageSystem.Controllers
             _domainController = domainController;
         }
 
-        // GET: api/students/grade/{courseId}
-        [HttpGet("grade/{courseId}")]
-        public IActionResult GetCourseGradeListLastSemester(string? courseId)
+        // GET: api/students/course/{courseId}
+        [HttpGet("course/{courseId}")]
+        public IActionResult GetCourseAllGradeList(string? courseId)
         {
             if (courseId != null)
             {
@@ -31,14 +31,38 @@ namespace GradeManageSystem.Controllers
             return NotFound();
         }
 
-        // POST: api/students/grade/{courseId}
-        [HttpPost("{courseId}")]
-        public IActionResult UpdateStudentsGrade(string? courseId, Dictionary<string, string> gradeList)
+        // GET: api/students/course/{courseId}/{year}/{semester}
+        [HttpGet("course/{courseId}/{year}/{semester}")]
+        public IActionResult GetCourseGradeListSemester(string? courseId, int? year, int? semester)
+        {
+            if (courseId != null && year != null && semester != null)
+            {
+                return Ok(_domainController.GetCourseGradeList(courseId, year, semester));
+            }
+
+            return NotFound();
+        }
+
+        // GET: api/students/history/{id}
+        [HttpGet("history/{id}")]
+        public IActionResult GetStudentAllGradeList(string? id)
+        {
+            if (id != null)
+            {
+                return Ok(_domainController.GetStudentAllGradeList(id));
+            }
+
+            return NotFound();
+        }
+
+        // POST: api/students/grade/{courseId}/{year}/{semester}
+        [HttpPost("grade/{courseId}/{year}/{semester}")]
+        public IActionResult UpdateStudentsGrade(string? courseId, int? year, int? semester, Dictionary<string, string> gradeList)
         {
             if (gradeList != null && courseId != null)
             {
                 _domainController.UpdateStudentsGrade(courseId, gradeList);
-                return Ok(_domainController.GetCourseGradeList(courseId, null, null));
+                return Ok(_domainController.GetCourseGradeList(courseId, year, semester));
             }
 
             return NotFound();

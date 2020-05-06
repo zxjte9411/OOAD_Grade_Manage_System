@@ -19,20 +19,34 @@ namespace GradeManageSystem.Models
         public List<IAccount> Accounts { get; set; }
         public List<Course> Courses { get; set; }
 
-        public List<Student> GetStudentsOfCourse(string courseId, int year, int semester)
+        public List<Student> GetStudentsOfCourse(string courseId, int? year, int? semester)
         {
             List<Student> students = new List<Student>();
 
             foreach (var account in Accounts)
-            {
                 if (account.Authority == 3)
                     students.Add((Student)account);
 
-                if (students.Count > 0 && !students[students.Count - 1].Courses.Any(course => course.Id == courseId && course.Year == year && course.Semester == semester))
-                    students.RemoveAt(students.Count - 1);
-            }
+            if (year != null && semester != null)
+                RemoveStudentsAgent(students, courseId, year, semester);
+            else
+                RemoveStudentsAgent(students, courseId);
 
             return students;
+        }
+
+        private void RemoveStudentsAgent(List<Student> students, string courseId, int? year, int? semester)
+        {
+            for (int i = students.Count - 1; i >= 0; i--)
+                if (!students[i].Courses.Any(course => course.Id == courseId && course.Year == year && course.Semester == semester))
+                    students.RemoveAt(i);
+        }
+
+        private void RemoveStudentsAgent(List<Student> students, string courseId)
+        {
+            for (int i = students.Count - 1; i >= 0; i--)
+                if (!students[i].Courses.Any(course => course.Id == courseId))
+                    students.RemoveAt(i);
         }
 
         public List<IAccount> FindAccountByAuthority(int authority)
