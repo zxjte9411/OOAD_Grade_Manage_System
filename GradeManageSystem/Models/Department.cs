@@ -34,5 +34,27 @@ namespace GradeManageSystem.Models
 
             return students;
         }
+
+        public List<IAccount> FindAccountByAuthority(int authority)
+        {
+            List<IAccount> accounts = new List<IAccount>();
+            Accounts.ForEach((account) =>
+            {
+                if (account.Authority == authority)
+                    accounts.Add(account);
+            });
+
+            return accounts;
+        }
+
+        public IAccount FindAccountById(string accountId)
+        {
+            foreach (var account in Accounts)
+            {
+                if (account.Id == accountId)
+                    return account;
+            }
+            return null;
+        }
     }
 }
