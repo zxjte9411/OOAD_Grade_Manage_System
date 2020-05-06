@@ -26,6 +26,7 @@ namespace GradeManageSystem.Models.Tests
             Assert.AreEqual("102580039", student.Id);
             Assert.AreEqual("123456789", student.Password);
             Assert.AreEqual(3, student.Authority);
+            Assert.AreEqual("1", student.Grade);
             Assert.AreEqual(info, student.UserInformation);
             Assert.AreEqual(courseGrade[course.Id], student.CourseGrades[course.Id]);
             Assert.AreEqual("4", student.Grade);
