@@ -21,7 +21,7 @@ namespace GradeManageSystem.Controllers
 
         // GET: api/students/course/{courseId}
         [HttpGet("course/{courseId}")]
-        public IActionResult GetCourseAllGradeList(string? courseId)
+        public IActionResult GetCourseAllGradeList(string courseId)
         {
             if (courseId != null)
             {
@@ -33,7 +33,7 @@ namespace GradeManageSystem.Controllers
 
         // GET: api/students/course/{courseId}/{year}/{semester}
         [HttpGet("course/{courseId}/{year}/{semester}")]
-        public IActionResult GetCourseGradeListSemester(string? courseId, int? year, int? semester)
+        public IActionResult GetCourseGradeListSemester(string courseId, int? year, int? semester)
         {
             if (courseId != null && year != null && semester != null)
             {
@@ -45,7 +45,7 @@ namespace GradeManageSystem.Controllers
 
         // GET: api/students/history/{id}
         [HttpGet("history/{id}")]
-        public IActionResult GetStudentAllGradeList(string? id)
+        public IActionResult GetStudentAllGradeList(string id)
         {
             if (id != null)
             {
@@ -57,7 +57,7 @@ namespace GradeManageSystem.Controllers
 
         // POST: api/students/grade/{courseId}/{year}/{semester}
         [HttpPost("grade/{courseId}/{year}/{semester}")]
-        public IActionResult UpdateStudentsGrade(string? courseId, int? year, int? semester, Dictionary<string, string> gradeList)
+        public IActionResult UpdateStudentsGrade(string courseId, int? year, int? semester, Dictionary<string, string> gradeList)
         {
             if (gradeList != null && courseId != null)
             {
