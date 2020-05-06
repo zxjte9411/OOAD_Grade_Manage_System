@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace GradeManageSystem.Controllers
         }
 
         [HttpGet("{departmentId}")]
-        public IActionResult GetAccountsOfThisDepartment(int? departmentId)
+        public IActionResult GetAccountsByDepartmentId(int? departmentId)
         {
             if (departmentId != null)
             {
