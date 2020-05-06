@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -57,13 +57,38 @@ namespace GradeManageSystem.Models
             return departments;
         }
 
-        //id, name, department_name, grade, score, year, semester
+        // course_id, course_name, score, year, semester
+        public List<Dictionary<string, string>> GetStudentAllGradeList(string id)
+        {
+            List<Dictionary<string, string>> gradeList = new List<Dictionary<string, string>>();
+            Student student = new Student();
+
+            foreach (var department in Departments)
+                if (department.Accounts.Any(account => account.Id == id))
+                {
+                    student = (Student)department.Accounts.Find(account => account.Id == id);
+                    break;
+                }
+
+            foreach (var course in student.Courses)
+            {
+                Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+                keyValuePairs.Add("course_id", course.Id.ToString());
+                keyValuePairs.Add("course_name", course.Name.ToString());
+                keyValuePairs.Add("score", student.CourseGrades[course.Id].ToString());
+                keyValuePairs.Add("year", course.Year.ToString());
+                keyValuePairs.Add("semester", course.Semester.ToString());
+                gradeList.Add(keyValuePairs);
+            }
+
+            return gradeList;
+        }
+
+        // id, name, department_name, grade, score, year, semester
         public List<Dictionary<string, string>> GetCourseGradeList(string courseId, int? year, int? semester)
         {
             List<Dictionary<string, string>> courseGrades = new List<Dictionary<string, string>>();
-            int selectYear = year ?? Year;
-            int selectSemester = semester ?? Semester;
-            List<Student> students = GetStudentsOfCourse(courseId, selectYear, selectSemester);
+            List<Student> students = GetStudentsOfCourse(courseId, year, semester);
 
             foreach (var department in Departments)
                 foreach (var student in students)
@@ -76,8 +101,8 @@ namespace GradeManageSystem.Models
                         courseGrade.Add("department_name", department.Name.ToString());
                         courseGrade.Add("grade", student.Grade.ToString());
                         courseGrade.Add("score", student.CourseGrades[courseId].ToString());
-                        courseGrade.Add("year", selectYear.ToString());
-                        courseGrade.Add("semester", selectSemester.ToString());
+                        courseGrade.Add("year", (year ?? student.Courses.Find(course => course.Id == courseId).Year).ToString());
+                        courseGrade.Add("semester", (semester ?? student.Courses.Find(course => course.Id == courseId).Semester).ToString());
                         courseGrades.Add(courseGrade);
                     }
                 }
@@ -85,7 +110,7 @@ namespace GradeManageSystem.Models
             return courseGrades;
         }
 
-        public List<Student> GetStudentsOfCourse(string courseId, int year, int semester)
+        public List<Student> GetStudentsOfCourse(string courseId, int? year, int? semester)
         {
             List<Student> students = new List<Student>();
 
