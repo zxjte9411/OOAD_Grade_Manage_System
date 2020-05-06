@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GradeManageSystem.Models;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace GradeManageSystem.Controllers
 {
@@ -60,20 +61,89 @@ namespace GradeManageSystem.Controllers
         [HttpPost("{departmentId}")]
         public IActionResult CreateAccount(int? departmentId, AccountModel account)
         {
+            IAccount newAccount = null;
             if (departmentId != null)
             {
                 _domainController.Departments.ForEach((department) =>
                 {
-                    if(department.Id == department.Id)
+                    if(department.Id == departmentId.ToString())
                     {
+                        string studentId = _domainController.;
                         if (account.Authority == 3)
                         {
-                            var student = new Student(account.Id, account.Password, account.Authority, "1", account.UserInformation, null);
-                            department.Accounts.Add(student);
+                            newAccount = new Student(account.Id, account.Password, account.Authority, "1", account.UserInformation, null);
+                            department.Accounts.Add(newAccount);
+                        }
+                        if (account.Authority == 2)
+                        {
+                            newAccount = new Teacher(account.Id, account.Password, account.Authority, account.UserInformation, null);
+                            department.Accounts.Add(newAccount);
+                        }
+                        if (account.Authority == 1)
+                        {
+                            newAccount = new AcadamicAffairs(account.Id, account.Password, account.Authority, account.UserInformation);
+                            department.Accounts.Add(newAccount);
+                        }
+                        if (account.Authority == 0)
+                        {
+                            newAccount = new Administrator(account.Id, account.Password, account.Authority, account.UserInformation);
+                            department.Accounts.Add(newAccount);
                         }
                     }
                 });
-                return StatusCode(200);
+                return Ok(newAccount);
+            }
+            return BadRequest();
+        }
+
+        [HttpPost("{departmentId}/{id}")]
+        public IActionResult UpdateAccountOfDepartment(string departmentId, string id, UserInformation userInformation)
+        {
+            if (departmentId != null && id != null)
+            {
+
+                foreach (var department in _domainController.Departments)
+                {
+                    if (department.Id == departmentId)
+                    {
+                        foreach (var account in department.Accounts)
+                        {
+                            if (account.Id == id)
+                            {
+                                account.UserInformation = userInformation;
+                                return Ok(account);
+                            }
+                        }
+                    }
+
+                }
+
+            }
+            return BadRequest();
+        }
+        [HttpPatch("{departmentId}/{id}")]
+        public IActionResult UpdateAccountPasswordOfDepartment(string departmentId, string id, [FromBody]JsonPatchDocument<IAccount> jsonPatchDocument)
+        {
+            if (departmentId != null && id != null)
+            {
+                if (jsonPatchDocument != null)
+                {
+                    foreach (var department in _domainController.Departments)
+                    {
+                        if (department.Id == departmentId)
+                        {
+                            foreach (var account in department.Accounts)
+                            {
+                                if (account.Id == id)
+                                {
+                                    jsonPatchDocument.ApplyTo(account);
+                                    return Ok(account);
+                                }
+                            }
+                        }
+
+                    }
+                }
             }
             return BadRequest();
         }
