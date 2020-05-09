@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using GradeManageSystem.Models;
-using Microsoft.AspNetCore.JsonPatch;
-using System.Reflection.Metadata.Ecma335;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace GradeManageSystem.Controllers
 {
+    [Authorize]
     [Route("api/admin/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -19,29 +15,31 @@ namespace GradeManageSystem.Controllers
         public AccountsController(DomainController domainController)
         {
             _domainController = domainController;
+            
         }
 
-        [HttpGet("{departmentId}")]
-        public IActionResult GetAccountsByDepartmentId(int? departmentId)
+        [HttpGet("{id}")]
+        public IActionResult GetAccountsByDepartmentId(string id)
         {
-            if (departmentId != null)
+            if (id != null)
             {
-                return Ok(_domainController.GetDepartment(departmentId.ToString()).Accounts);
+                return Ok(_domainController.GetAccount(id));
             }
             return NotFound();
         }
 
-        [HttpGet("{departmentId}/{id}")]
-        public IActionResult GetAccount(int? departmentId, int? id)
+        [HttpGet("department/{department_id}")]
+        public IActionResult GetAccounts(string departmentId)
         {
-            try
+            if (departmentId != null) 
             {
-                return Ok(_domainController.GetDepartment(departmentId.ToString()).GetAccountById(id.ToString()));
+                var depadrment = _domainController.GetDepartment(departmentId);
+                if (depadrment != null)
+                {
+                    return Ok(depadrment.Accounts);
+                }
             }
-            catch (Exception e)
-            {
-                return NotFound(e);
-            }
+            return BadRequest();
         }
 
         [HttpPost("{departmentId}")]
@@ -65,5 +63,6 @@ namespace GradeManageSystem.Controllers
 
             return BadRequest();
         }
+
     }
 }
