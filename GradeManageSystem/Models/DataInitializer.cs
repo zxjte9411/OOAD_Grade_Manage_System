@@ -100,11 +100,11 @@ namespace GradeManageSystem.Models
             accounts.Add(new Teacher("12345", "test", 2, userInformations[2], courses.GetRange(0, 4)));
             accounts.Add(new Teacher("24689", "test", 2, userInformations[3], courses.GetRange(4, 4)));
             accounts.Add(new Teacher("54321", "test", 2, userInformations[4], courses.GetRange(6, 4)));
-            accounts.Add(new Student("106380001", "test", 3, "2", userInformations[5], CourseGrades0));
-            accounts.Add(new Student("106380023", "test", 3, "2", userInformations[6], CourseGrades1));
-            accounts.Add(new Student("105570047", "test", 3, "3", userInformations[7], CourseGrades2));
-            accounts.Add(new Student("107400047", "test", 3, "1", userInformations[8], CourseGrades3));
-            accounts.Add(new Student("104580047", "test", 3, "4", userInformations[9], CourseGrades4));
+            accounts.Add(new Student("106590001", "test", 3, "2", userInformations[5], CourseGrades0));
+            accounts.Add(new Student("106580023", "test", 3, "2", userInformations[6], CourseGrades1));
+            accounts.Add(new Student("105580047", "test", 3, "3", userInformations[7], CourseGrades2));
+            accounts.Add(new Student("107570047", "test", 3, "1", userInformations[8], CourseGrades3));
+            accounts.Add(new Student("104570047", "test", 3, "4", userInformations[9], CourseGrades4));
 
             // Dep1
             List<IAccount> tmp = accounts.GetRange(0, 3);
@@ -114,12 +114,12 @@ namespace GradeManageSystem.Models
             // Dep2
             tmp = accounts.GetRange(6, 2);
             tmp.Add(accounts[3]);
-            department = new Department("590", "department2", tmp, courses.GetRange(4, 3));
+            department = new Department("580", "department2", tmp, courses.GetRange(4, 3));
             domainController.Departments.Add(department);
             // Dep3
             tmp = accounts.GetRange(8, 2);
             tmp.Add(accounts[4]);
-            department = new Department("590", "department3", tmp, courses.GetRange(6, 4));
+            department = new Department("570", "department3", tmp, courses.GetRange(6, 4));
             domainController.Departments.Add(department);
         }
     }

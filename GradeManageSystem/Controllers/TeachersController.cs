@@ -25,7 +25,7 @@ namespace GradeManageSystem.Controllers
         {
             if (id != null)
             {
-                return Ok(_domainController.GetTeacher(id).Courses);
+                return Ok(_domainController.GetTeacherCourse(id));
             }
 
             return NotFound();

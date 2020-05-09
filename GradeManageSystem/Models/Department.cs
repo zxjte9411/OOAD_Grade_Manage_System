@@ -63,5 +63,51 @@ namespace GradeManageSystem.Models
         {
             return Accounts.Find(account => account.Id == id);
         }
+
+        public int GetMaxId(List<IAccount> accounts)
+        {
+            int maxValue = int.MinValue;
+            accounts.ForEach((account) =>
+            {
+                if (account.IsStudent())
+                {
+                    if (maxValue < int.Parse(account.Id.Substring(6, 3)))
+                        maxValue = int.Parse(account.Id.Substring(6, 3));
+                }
+                //else if (account.IsTeacher())
+                //{/*TODO*/}
+                //else if (account.IsAcadamicAffair())
+                //{/*TODO*/}
+                //else if (account.IsAdmin())
+                //{/*TODO*/}
+            });
+
+            return maxValue;
+        }
+
+        private Student CreateStudent(AccountModel newAccount, int year)
+        {
+            Student student = new Student(year + Id.PadLeft(3, '0'), "", 3, "1", newAccount.UserInformation, null);
+            student.Id += (GetMaxId(GetAccountByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0');
+            student.Password = student.Id;
+            Accounts.Add(student);
+            return student;
+        }
+
+        public IAccount CreateAccount(AccountModel newAccount, int year)
+        {
+            if (newAccount.IsStudent())
+            {
+                return CreateStudent(newAccount, year);
+            }
+            //else if (newAccount.IsTeacher())
+            //{/*TODO*/}
+            //else if (newAccount.IsAcadamicAffair())
+            //{/*TODO*/}
+            //else if (newAccount.IsAdmin())
+            //{/*TODO*/}
+
+            return null;
+        }
     }
 }

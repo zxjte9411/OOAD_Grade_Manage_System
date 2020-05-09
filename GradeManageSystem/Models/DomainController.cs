@@ -28,18 +28,29 @@ namespace GradeManageSystem.Models
 
         public Login Login { get; set; }
 
-        public Teacher GetTeacher(string teacherId)
+        public IAccount GetAccount(string id)
         {
             foreach (var department in Departments)
-                if (department.IsAccountExist(teacherId))
-                    return (Teacher)department.GetAccountById(teacherId);
+                if (department.IsAccountExist(id))
+                    return department.GetAccountById(id);
 
             return null;
+        }
+
+        public List<Course> GetTeacherCourse(string id)
+        {
+            var account = (Teacher)GetAccount(id);
+            return account.Courses;
+        }
+
+        public Department GetDepartment(string id)
+        {
+            return Departments.Find(department => department.Id == id);
         }
         
         public Dictionary<string, string> GetTeacherCoursesLastSemester(string teacherId)
         {
-            Teacher teacher = GetTeacher(teacherId);
+            Teacher teacher = (Teacher)GetAccount(teacherId);
 
             if (teacher != null)
                 return teacher.GetSemesterCourses(Year, Semester);
@@ -125,54 +136,21 @@ namespace GradeManageSystem.Models
             List<Student> students = GetStudentsOfCourse(courseId, Year, Semester);
 
             foreach (var student in students)
-            {
-                if (int.TryParse(gradeList[student.Id], out int score))
-                    student.SetScore(courseId, score);
-                else
-                    throw new Exception("score parse to int fail");
-            }
+                student.SetScore(courseId, int.Parse(gradeList[student.Id]));
         }
 
-        public int FindMaxId(List<IAccount> accounts)
+        public void UpdateUserInformationOfDepartment(string departmentId, string id, UserInformation userInformation)
         {
-            int maxValue = int.MinValue;
-            accounts.ForEach((account) => 
-            {
-                if (account.IsStudent())
-                {
-                    if (maxValue < int.Parse(account.Id))
-                        maxValue = int.Parse(account.Id.Substring(6, 3));
-                }
-                else if (account.IsTeacher())
-                {/*TODO*/}
-                else if (account.IsAcadamicAffair())
-                {/*TODO*/}
-                else if (account.IsAdmin())
-                {/*TODO*/}
-            });
-
-            return maxValue;
+            var department = GetDepartment(departmentId);
+            var account = department.GetAccountById(id);
+            account.UserInformation = userInformation;
         }
 
-        public IAccount CreateAccount(Department department, AccountModel newAccount)
+        public IAccount CreateAccount(AccountModel newAccount, string departmentId)
         {
-            if (newAccount.IsStudent())
-            {
-                Student student = new Student(YEAR+ department.Id.PadLeft(3, '0'), "", 3, "1", newAccount.UserInformation, null);
-                string tempId = (FindMaxId(department.GetAccountByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); ;
-                student.Id += tempId;
-                student.Password = tempId;
-                department.Accounts.Add(student);
-                return student;
-            }
-            else if (newAccount.IsTeacher())
-            {/*TODO*/}
-            else if (newAccount.IsAcadamicAffair())
-            {/*TODO*/}
-            else if (newAccount.IsAdmin())
-            {/*TODO*/}
+            var department = GetDepartment(departmentId.ToString());
 
-            return null;
+            return department.CreateAccount(newAccount, Year);
         }
     }
 }
