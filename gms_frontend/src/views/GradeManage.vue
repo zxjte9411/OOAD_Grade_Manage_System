@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="grademanage">
+    <NavBar/>
     <b-container fluid class="my-3">
       <!-- Main table element -->
       <b-card v-if="selected">
@@ -11,6 +12,8 @@
           <template v-slot:cell(score)="row">
             <input
               type="number"
+              min=1
+              max=100
               v-model.number="row.item.score"
               value="row.item.score"
               :disabled="!canEdit"
@@ -42,10 +45,11 @@
 <script>
 import axios from "axios";
 import { async } from "q";
-
+import NavBar from "@/components/NavBar"
 export default {
   data() {
     return {
+      
       selected: false,
       canEdit: false,
       students: null,
@@ -103,6 +107,9 @@ export default {
     this.YEAR = "108";
     this.SEMESTER = 2;
   },
+  components:{
+    NavBar
+  },
   computed: {},
   methods: {
     async getStudentsData(course_id = "275689") {
@@ -144,9 +151,10 @@ export default {
     },
     async submit() {
       this.selected = !this.selected;
+      this.canEdit = !this.canEdit;
       const data = {};
       this.students.forEach(student => {
-        data[student.id] = student.score;
+        data[student.id] = student.score.toString();
       });
       let response = await axios
         .post(
