@@ -1,23 +1,13 @@
 <template>
   <div>
     <b-container fluid class="my-3">
-      <!-- <ul v-for="(item, index) in students" :key="index">
-        <li>
-          {{ item.name }} {{ item.id }}
-          <input
-            type="number"
-            v-model.number="item.score"
-            value="item.score"
-          />
-        </li>
-      </ul>-->
       <!-- Main table element -->
       <b-card v-if="selected">
         <!-- 成績表 -->
         <b-table show-empty small stacked="md" :items="students" :fields="fields">
           <template v-slot:cell(name)="row">{{ row.value }}</template>
           <template v-slot:cell(score)="row">
-            <input type="number" v-model.number="row.item.score" value="row.item.score" />
+            <input
           </template>
         </b-table>
         <!-- 成績表 end -->
