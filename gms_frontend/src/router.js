@@ -12,22 +12,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/test',
-      name: 'test',
+      path: '/grademanage',
+      name: 'GradeManage',
       component: () => import('./views/GradeManage.vue')
     },
     {
-      path: '/test2',
-      name: 'test2',
-      // component: () => import('./views/AccountManagement.vue')
+      path: '/accountmanage',
+      name: 'AccountManage',
+      component: () => import('./views/AccountManage.vue')
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import( /* webpackChunkName: "about" */ './views/About.vue')
-    // },
   ]
 })
