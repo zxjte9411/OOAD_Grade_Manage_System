@@ -327,12 +327,8 @@ namespace GradeManageSystem.Models.Tests
             Student student1 = new Student("1", "123", 3, "3", userInformation, courseGrades1);
             Student student2 = new Student("2", "123", 3, "4", userInformation, courseGrades2);
             Student student3 = new Student("3", "123", 3, "4", userInformation, courseGrades3);
-            Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
-            Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
             List<IAccount> accounts = new List<IAccount>();
-            accounts.Add(teacher);
-            accounts.Add(administrator);
             accounts.Add(student1);
             accounts.Add(student2);
             accounts.Add(student3);
@@ -348,12 +344,107 @@ namespace GradeManageSystem.Models.Tests
             {
                 students.Add("3", "dagd");
             }
-            catch (Exception e){ }
+            catch { }
 
             domainController.UpdateStudentsGrade("235463", students);
 
             Assert.AreEqual(0, student2.CourseGrades["235463"]);
             Assert.AreEqual(0, student3.CourseGrades["235463"]);
+        }
+
+        [TestMethod()]
+        public void TestCreateAccount()
+        {
+            List<Department> departments = new List<Department>();
+            UserInformation userInformation = new UserInformation("test", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
+            List<Course> courses = new List<Course>();
+            courses.Add(new Course("123456", "math", 106, 2));
+            courses.Add(new Course("222222", "English", 105, 1));
+            courses.Add(new Course("312412", "test", 108, 1));
+            courses.Add(new Course("312412", "test", 107, 1));
+            courses.Add(new Course("235463", "test2", 108, 2));
+            Dictionary<Course, int> courseGrades1 = new Dictionary<Course, int>();
+            courseGrades1.Add(courses[0], 68);
+            courseGrades1.Add(courses[1], 73);
+            courseGrades1.Add(courses[2], 89);
+            Dictionary<Course, int> courseGrades2 = new Dictionary<Course, int>();
+            courseGrades2.Add(courses[2], 39);
+            courseGrades2.Add(courses[4], 75);
+            Dictionary<Course, int> courseGrades3 = new Dictionary<Course, int>();
+            courseGrades3.Add(courses[3], 86);
+            courseGrades3.Add(courses[4], 75);
+
+            Student student1 = new Student("105205001", "123", 3, "3", userInformation, courseGrades1);
+            Student student2 = new Student("105205002", "123", 3, "4", userInformation, courseGrades2);
+            Student student3 = new Student("105205003", "123", 3, "4", userInformation, courseGrades3);
+            Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
+            Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
+
+            List<IAccount> accounts = new List<IAccount>();
+            accounts.Add(teacher);
+            accounts.Add(administrator);
+            accounts.Add(student1);
+            accounts.Add(student2);
+            accounts.Add(student3);
+            Department department = new Department("205", "CS", accounts, courses);
+            departments.Add(department);
+
+            DomainController domainController = new DomainController(departments, new Login());
+
+            AccountModel accountModel = new AccountModel("123", "321", 3, userInformation);
+            domainController.CreateAccount(accountModel, "205");
+
+            Assert.AreEqual(6, department.Accounts.Count);
+            Assert.AreEqual("108205004", department.Accounts[5].Id);
+            Assert.AreEqual("108205004", department.Accounts[5].Password);
+            Assert.AreEqual(3, department.Accounts[5].Authority);
+            Assert.AreEqual(userInformation, department.Accounts[5].UserInformation);
+        }
+
+        [TestMethod()]
+        public void TestGetTeacherCourse()
+        {
+            List<Department> departments = new List<Department>();
+            UserInformation userInformation = new UserInformation("test", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
+            List<Course> courses = new List<Course>();
+            courses.Add(new Course("123456", "math", 106, 2));
+            courses.Add(new Course("222222", "English", 105, 1));
+            courses.Add(new Course("312412", "test", 108, 1));
+            courses.Add(new Course("312412", "test", 107, 1));
+            courses.Add(new Course("235463", "test2", 108, 2));
+            Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
+            Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
+
+            List<IAccount> accounts = new List<IAccount>();
+            accounts.Add(teacher);
+            Department department = new Department("205", "CS", accounts, courses);
+            departments.Add(department);
+
+            DomainController domainController = new DomainController(departments, new Login());
+
+            CollectionAssert.AreEqual(courses, domainController.GetTeacherCourse("123"));
+        }
+
+        [TestMethod()]
+        public void TestUpdateUserInformationOfDepartment()
+        {
+            List<Department> departments = new List<Department>();
+            UserInformation userInformation = new UserInformation("test", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
+            UserInformation userInformation2 = new UserInformation("AAAA", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
+            List<Course> courses = new List<Course>();
+            Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
+            Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
+
+            List<IAccount> accounts = new List<IAccount>();
+            accounts.Add(teacher);
+            Department department = new Department("205", "CS", accounts, courses);
+            departments.Add(department);
+
+            DomainController domainController = new DomainController(departments, new Login());
+
+            Assert.AreEqual(userInformation, domainController.GetAccount("123").UserInformation);
+            domainController.UpdateUserInformationOfDepartment("205", "123", userInformation2);
+            Assert.AreEqual(userInformation2, domainController.GetAccount("123").UserInformation);
         }
     }
 }

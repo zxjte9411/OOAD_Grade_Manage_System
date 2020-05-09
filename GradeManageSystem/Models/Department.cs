@@ -64,7 +64,7 @@ namespace GradeManageSystem.Models
             return Accounts.Find(account => account.Id == id);
         }
 
-        public int GetMaxId(List<IAccount> accounts)
+        private int GetMaxId(List<IAccount> accounts)
         {
             int maxValue = int.MinValue;
             accounts.ForEach((account) =>
