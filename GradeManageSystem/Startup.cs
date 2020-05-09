@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using GradeManageSystem.Helpers;
+using GradeManageSystem.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using GradeManageSystem.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -38,7 +31,7 @@ namespace GradeManageSystem
             });
 
             services.AddSingleton<DomainController>();
-
+            services.AddSingleton<JwtHelpers>();
             services.AddControllers();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
@@ -53,7 +46,7 @@ namespace GradeManageSystem
                     RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
                     // 一般都會驗證 Issuer
                     ValidateIssuer = true,
-                    ValidIssuer = Configuration.GetValue<string>("JwtSettings:Issuer"),
+                    ValidIssuer = Configuration["Payload:Claims:Issuer"],
 
                     // 一般不太需要驗證 Audience
                     ValidateAudience = false,
@@ -61,7 +54,7 @@ namespace GradeManageSystem
                     ValidateLifetime = true,
                     // 如果 Token 中包含 key 才需要驗證，一般都只有簽章而已
                     ValidateIssuerSigningKey = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JwtSettings:SignKey")))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Payload:Claims:SignKey"]))
                 };
             });
         }
