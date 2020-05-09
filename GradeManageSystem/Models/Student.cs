@@ -37,6 +37,31 @@ namespace GradeManageSystem.Models
         public UserInformation UserInformation { get; set; }
         public List<Course> Courses { get; set; }
         public Dictionary<string, int> CourseGrades { get; set; }
-        
+        public bool IsStudent()
+        {
+            return Authority == 3;
+        }
+        public bool IsAdmin()
+        {
+            return Authority == 0;
+        }
+        public bool IsTeacher()
+        {
+            return Authority == 2;
+        }
+        public bool IsAcadamicAffair()
+        {
+            return Authority == 1;
+        }
+
+        public Course GetCourse(string id)
+        {
+            return Courses.Find(course => course.Id == id);
+        }
+
+        public void SetScore(string id, int score)
+        {
+            CourseGrades[id] = score;
+        }
     }
 }

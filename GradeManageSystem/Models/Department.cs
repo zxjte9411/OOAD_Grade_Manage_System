@@ -24,7 +24,7 @@ namespace GradeManageSystem.Models
             List<Student> students = new List<Student>();
 
             foreach (var account in Accounts)
-                if (account.Authority == 3)
+                if (account.IsStudent())
                     students.Add((Student)account);
 
             if (year != null && semester != null)
@@ -61,14 +61,14 @@ namespace GradeManageSystem.Models
             return accounts;
         }
 
-        public IAccount FindAccountById(string accountId)
+        public bool IsAccountExist(string id)
         {
-            foreach (var account in Accounts)
-            {
-                if (account.Id == accountId)
-                    return account;
-            }
-            return null;
+            return Accounts.Any(account => account.Id == id);
+        }
+
+        public IAccount GetAccountById(string id)
+        {
+            return Accounts.Find(account => account.Id == id);
         }
     }
 }

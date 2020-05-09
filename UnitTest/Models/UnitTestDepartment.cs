@@ -10,7 +10,7 @@ namespace GradeManageSystem.Models.Tests
     public class UnitTestDepartment
     {
         [TestMethod()]
-        public void DepartmentTestConstructor()
+        public void TestConstructor()
         {
             UserInformation userInformation = new UserInformation("test", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
             List<Course> courses = new List<Course>();
