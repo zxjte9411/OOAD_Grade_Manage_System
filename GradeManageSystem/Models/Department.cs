@@ -28,14 +28,14 @@ namespace GradeManageSystem.Models
                     students.Add((Student)account);
 
             if (year != null && semester != null)
-                RemoveStudentsAgent(students, courseId, year, semester);
+                RemoveStudentsAgent(students, courseId, (int)year, (int)semester);
             else
                 RemoveStudentsAgent(students, courseId);
 
             return students;
         }
 
-        private void RemoveStudentsAgent(List<Student> students, string courseId, int? year, int? semester)
+        private void RemoveStudentsAgent(List<Student> students, string courseId, int year, int semester)
         {
             for (int i = students.Count - 1; i >= 0; i--)
                 if (!students[i].Courses.Any(course => course.Id == courseId && course.Year == year && course.Semester == semester))
@@ -49,16 +49,9 @@ namespace GradeManageSystem.Models
                     students.RemoveAt(i);
         }
 
-        public List<IAccount> FindAccountByAuthority(int authority)
+        public List<IAccount> GetAccountByAuthority(int authority)
         {
-            List<IAccount> accounts = new List<IAccount>();
-            Accounts.ForEach((account) =>
-            {
-                if (account.Authority == authority)
-                    accounts.Add(account);
-            });
-
-            return accounts;
+            return Accounts.FindAll(account => account.Authority == authority);
         }
 
         public bool IsAccountExist(string id)

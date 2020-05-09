@@ -159,7 +159,7 @@ namespace GradeManageSystem.Models
             if (newAccount.IsStudent())
             {
                 Student student = new Student(YEAR+ department.Id.PadLeft(3, '0'), "", 3, "1", newAccount.UserInformation, null);
-                string tempId = (FindMaxId(department.FindAccountByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); ;
+                string tempId = (FindMaxId(department.GetAccountByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); ;
                 student.Id += tempId;
                 student.Password = tempId;
                 department.Accounts.Add(student);
