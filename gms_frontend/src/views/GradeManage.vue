@@ -3,25 +3,37 @@
     <b-container fluid class="my-3">
       <!-- Main table element -->
       <b-card v-if="selected">
+        <h1>{{course_name}}</h1>
         <!-- 成績表 -->
         <b-table show-empty small stacked="md" :items="students" :fields="fields">
           <template v-slot:cell(name)="row">{{ row.value }}</template>
+          <template v-slot:cell(grade)="row">{{ row.item.department_name }} {{ row.item.grade }}</template>
           <template v-slot:cell(score)="row">
             <input
+              type="number"
+              v-model.number="row.item.score"
+              value="row.item.score"
+              :disabled="!canEdit"
+            />
           </template>
         </b-table>
         <!-- 成績表 end -->
-        <input type="button" value="送出" @click="submit(students)" />
+        <b-button variant="success" @click="submit()" v-if="canEdit">送出</b-button>
+        <b-button variant="warning" @click="canEdit=!canEdit" v-if="!canEdit">編輯</b-button>
+        <b-button variant="primary" @click="selected=!selected;canEdit=false">返回</b-button>
       </b-card>
+
       <b-card v-if="!selected">
-        <!-- 成績表 -->
+        <!-- 課程選單 -->
+        <h1>{{YEAR}}-{{SEMESTER}}</h1>
         <ul v-for="(item, index) in courses" :key="index">
           <b-button
             variant="outline-success"
-            @click="selectCourse(item.id, item.year, item.semester)"
+            v-if="item.year==YEAR&&item.semester==SEMESTER"
+            @click="selectCourse(item)"
           >{{ item.name }}</b-button>
         </ul>
-        <!-- 成績表 end -->
+        <!-- 課程選單 end -->
       </b-card>
     </b-container>
   </div>
@@ -35,15 +47,18 @@ export default {
   data() {
     return {
       selected: false,
+      canEdit: false,
       students: null,
       courses: null,
       course_id: null,
       year: null,
       semester: null,
+      YEAR: null,
+      SEMESTER: null,
       fields: [
         {
           key: "id",
-          label: "姓名",
+          label: "學號",
           sortable: true,
           sortDirection: "desc"
         },
@@ -54,24 +69,24 @@ export default {
           class: "text-center"
         },
         {
-          key: "semester",
+          key: "grade",
           label: "年級",
           sortable: true,
           sortDirection: "desc",
           class: "text-center"
         },
-        {
-          key: "year",
-          label: "年度",
-          sortable: true
-          //   sortDirection: "desc",
-          //   class: "text-center",
-          //   formatter: (value /*, key, item*/) => {
-          //     return value
-          //       ? this.CharactorOptions[value].name
-          //       : this.CharactorOptions[0].name;
-          //   }
-        },
+        // {
+        //   key: "year",
+        //   label: "年度",
+        //   sortable: true
+        //   //   sortDirection: "desc",
+        //   //   class: "text-center",
+        //   //   formatter: (value /*, key, item*/) => {
+        //   //     return value
+        //   //       ? this.CharactorOptions[value].name
+        //   //       : this.CharactorOptions[0].name;
+        //   //   }
+        // },
         {
           key: "score",
           label: "分數",
@@ -85,6 +100,8 @@ export default {
   },
   mounted() {
     this.getTeacherCourses();
+    this.YEAR = "108";
+    this.SEMESTER = 2;
   },
   computed: {},
   methods: {
@@ -106,7 +123,6 @@ export default {
           return await err.response;
         });
       this.students = response.data;
-      console.log(response.data);
     },
     async getTeacherCourses(teacher_id = "54321") {
       let response = await axios
@@ -125,12 +141,12 @@ export default {
           return await err.response;
         });
       this.courses = response.data;
-      console.log(response.data);
     },
     async submit() {
+      this.selected = !this.selected;
       const data = {};
       this.students.forEach(student => {
-        data[student.id] = student.score
+        data[student.id] = student.score;
       });
       let response = await axios
         .post(
@@ -148,18 +164,16 @@ export default {
         .catch(async err => {
           return await err;
         });
-        console.log(response)
     },
-    selectCourse(course_id, year, semester) {
-      console.log([course_id, year, semester]);
-      this.course_id = course_id;
-      this.year = year;
-      this.semester = semester;
+    selectCourse(item) {
+      this.course_id = item.id;
+      this.year = item.year;
+      this.semester = item.semester;
+      this.course_name = item.name;
       this.selected = !this.selected;
-      this.getStudentsData(course_id);
+      this.getStudentsData(this.course_id);
     },
     print(p) {
-      this.selected = !this.selected;
       console.log(p);
     }
   }
