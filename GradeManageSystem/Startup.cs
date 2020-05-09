@@ -27,6 +27,11 @@ namespace GradeManageSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMyOrigin",
+                builder => builder.AllowAnyHeader().AllowAnyOrigin());
+            });
             services.AddSingleton<DomainController>();
             services.AddControllers().AddNewtonsoftJson();
         }
@@ -38,6 +43,8 @@ namespace GradeManageSystem
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowMyOrigin");
 
             app.UseHttpsRedirection();
 
