@@ -10,7 +10,7 @@ namespace GradeManageSystem.Models.Tests
     public class UnitTestAcadamicAffairs
     {
         [TestMethod()]
-        public void AcadamicAffairsTestConstructor()
+        public void TestConstructor()
         {
             UserInformation info = new UserInformation("AAA", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
             AcadamicAffairs acadamicAffairs = new AcadamicAffairs("2313", "1111", 1, info);
@@ -19,6 +19,42 @@ namespace GradeManageSystem.Models.Tests
             Assert.AreEqual("1111", acadamicAffairs.Password);
             Assert.AreEqual(1, acadamicAffairs.Authority);
             Assert.AreEqual(info, acadamicAffairs.UserInformation);
+        }
+
+        [TestMethod()]
+        public void TestIsStudent()
+        {
+            UserInformation userInformation = new UserInformation("BBB", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
+            AcadamicAffairs account = new AcadamicAffairs("AAA", "123", 1, userInformation);
+
+            Assert.IsFalse(account.IsStudent());
+        }
+
+        [TestMethod()]
+        public void TestIsTeacher()
+        {
+            UserInformation userInformation = new UserInformation("BBB", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
+            AcadamicAffairs account = new AcadamicAffairs("AAA", "123", 1, userInformation);
+
+            Assert.IsFalse(account.IsTeacher());
+        }
+
+        [TestMethod()]
+        public void TestIsAdmin()
+        {
+            UserInformation userInformation = new UserInformation("BBB", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
+            AcadamicAffairs account = new AcadamicAffairs("AAA", "123", 1, userInformation);
+
+            Assert.IsFalse(account.IsAdmin());
+        }
+
+        [TestMethod()]
+        public void TestIsAcadamicAffair()
+        {
+            UserInformation userInformation = new UserInformation("BBB", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
+            AcadamicAffairs account = new AcadamicAffairs("AAA", "123", 1, userInformation);
+
+            Assert.IsTrue(account.IsAcadamicAffair());
         }
     }
 }

@@ -32,5 +32,21 @@ namespace GradeManageSystem.Models
 
             return courses;
         }
+        public bool IsStudent()
+        {
+            return Authority == 3;
+        }
+        public bool IsAdmin()
+        {
+            return Authority == 0;
+        }
+        public bool IsTeacher()
+        {
+            return Authority == 2;
+        }
+        public bool IsAcadamicAffair()
+        {
+            return Authority == 1;
+        }
     }
 }

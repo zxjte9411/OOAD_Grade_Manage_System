@@ -21,11 +21,11 @@ namespace GradeManageSystem.Controllers
 
         // GET: api/teachers/{id}/courses
         [HttpGet("{id}/courses")]
-        public IActionResult GetTeacherAllCourses(string? id)
+        public IActionResult GetTeacherAllCourses(string id)
         {
             if (id != null)
             {
-                return Ok(_domainController.GetTeacher(id).Courses);
+                return Ok(_domainController.GetTeacherCourse(id));
             }
 
             return NotFound();

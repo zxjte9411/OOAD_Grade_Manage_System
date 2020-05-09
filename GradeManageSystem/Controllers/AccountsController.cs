@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GradeManageSystem.Models;
 using Microsoft.AspNetCore.JsonPatch;
+using System.Reflection.Metadata.Ecma335;
 
 namespace GradeManageSystem.Controllers
 {
@@ -25,11 +26,7 @@ namespace GradeManageSystem.Controllers
         {
             if (departmentId != null)
             {
-                foreach (var department in _domainController.Departments)
-                {
-                    if (int.Parse(department.Id) == departmentId)
-                        return Ok(department.Accounts);
-                }
+                return Ok(_domainController.GetDepartment(departmentId.ToString()).Accounts);
             }
             return NotFound();
         }
@@ -37,21 +34,14 @@ namespace GradeManageSystem.Controllers
         [HttpGet("{departmentId}/{id}")]
         public IActionResult GetAccount(int? departmentId, int? id)
         {
-            if (departmentId != null)
+            try
             {
-                foreach (var department in _domainController.Departments)
-                {
-                    IAccount account = null;
-                    if (int.Parse(department.Id) == departmentId)
-                    {
-                        account = department.FindAccountById(id.ToString());
-                        if (account != null)
-                            return Ok(account);
-                    }
-                }
+                return Ok(_domainController.GetDepartment(departmentId.ToString()).GetAccountById(id.ToString()));
             }
-
-            return NotFound();
+            catch (Exception e)
+            {
+                return NotFound(e);
+            }
         }
 
         [HttpPost("{departmentId}")]
@@ -59,15 +49,7 @@ namespace GradeManageSystem.Controllers
         {
             if (departmentId != null)
             {
-                IAccount account = null;
-                _domainController.Departments.ForEach((department) =>
-                {
-                    if(department.Id == departmentId.ToString())
-                    {
-                        account = _domainController.CreateAccount(department, newAccount);
-                    }
-                });
-                return Ok(account);
+                return Ok(_domainController.CreateAccount(newAccount, departmentId.ToString()));
             }
             return BadRequest();
         }
@@ -77,38 +59,10 @@ namespace GradeManageSystem.Controllers
         {
             if (departmentId != null && id != null)
             {
-                foreach (var department in _domainController.Departments)
-                {
-                    if (department.Id == departmentId)
-                    {
-                        var account = department.FindAccountById(id);
-                        account.UserInformation = userInformation;
-                        return Ok(account);
-                    }
-                }
+                _domainController.UpdateUserInformationOfDepartment(departmentId, id, userInformation);
+                return Ok(_domainController.GetAccount(id));
             }
 
-            return BadRequest();
-        }
-
-        [HttpPatch("{departmentId}/{id}")]
-        public IActionResult UpdateAccountPasswordOfDepartment(string departmentId, string id, [FromBody]JsonPatchDocument<IAccount> jsonPatchDocument)
-        {
-            if (departmentId != null && id != null)
-            {
-                if (jsonPatchDocument != null)
-                {
-                    foreach (var department in _domainController.Departments)
-                    {
-                        if (department.Id == departmentId)
-                        {
-                            var account =  department.FindAccountById(id);
-                            jsonPatchDocument.ApplyTo(account);
-                            return Ok(account);
-                        }
-                    }
-                }
-            }
             return BadRequest();
         }
     }
