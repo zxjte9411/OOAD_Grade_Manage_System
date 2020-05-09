@@ -19,17 +19,17 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
-// router.beforeEach((to, from, next) => {
-//   const isLogin = localStorage.getItem('token') != null;
-//   if (isLogin) {
-//     next();
-//   } else {
-//     if (to.path !== '/login')
-//       next('/login');
-//     else
-//       next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  const isLogin = localStorage.getItem('token') !== null;
+  if (isLogin) {
+    next();
+  } else {
+    if (to.path !== '/login')
+      next('/login');
+    else
+      next();
+  }
+});
 
 new Vue({
   router,
