@@ -34,7 +34,13 @@ namespace GradeManageSystem
             {
                 options.AddPolicy("AllowMyOrigin",
                 builder => builder.AllowAnyHeader().AllowAnyOrigin());
+
             });
+
+            services.AddSingleton<DomainController>();
+
+            services.AddControllers();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
             {
                 // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因
@@ -58,8 +64,6 @@ namespace GradeManageSystem
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JwtSettings:SignKey")))
                 };
             });
-
-            services.AddSingleton<DomainController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
