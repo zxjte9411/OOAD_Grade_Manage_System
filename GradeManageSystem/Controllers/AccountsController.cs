@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GradeManageSystem.Models;
 using Microsoft.AspNetCore.JsonPatch;
+using System.Reflection.Metadata.Ecma335;
 
 namespace GradeManageSystem.Controllers
 {
@@ -44,9 +45,14 @@ namespace GradeManageSystem.Controllers
                     IAccount account = null;
                     if (int.Parse(department.Id) == departmentId)
                     {
-                        account = department.FindAccountById(id.ToString());
-                        if (account != null)
-                            return Ok(account);
+                        try
+                        {
+                            return Ok(department.GetAccountById(id.ToString()));
+                        }
+                        catch (ArgumentException e)
+                        {
+                            return NotFound(e);
+                        }
                     }
                 }
             }
@@ -81,7 +87,7 @@ namespace GradeManageSystem.Controllers
                 {
                     if (department.Id == departmentId)
                     {
-                        var account = department.FindAccountById(id);
+                        var account = department.GetAccountById(id);
                         account.UserInformation = userInformation;
                         return Ok(account);
                     }
@@ -102,7 +108,7 @@ namespace GradeManageSystem.Controllers
                     {
                         if (department.Id == departmentId)
                         {
-                            var account =  department.FindAccountById(id);
+                            var account =  department.GetAccountById(id);
                             jsonPatchDocument.ApplyTo(account);
                             return Ok(account);
                         }

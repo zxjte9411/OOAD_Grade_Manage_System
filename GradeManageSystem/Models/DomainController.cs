@@ -31,8 +31,8 @@ namespace GradeManageSystem.Models
         public Teacher GetTeacher(string teacherId)
         {
             foreach (var department in Departments)
-                if (department.Accounts.Any(account => account.Id == teacherId))
-                    return (Teacher)department.Accounts.Find(teacher => teacher.Id == teacherId);
+                if (department.IsAccountExist(teacherId))
+                    return (Teacher)department.GetAccountById(teacherId);
 
             return null;
         }
@@ -64,9 +64,9 @@ namespace GradeManageSystem.Models
             Student student = new Student();
 
             foreach (var department in Departments)
-                if (department.Accounts.Any(account => account.Id == id))
+                if (department.IsAccountExist(id))
                 {
-                    student = (Student)department.Accounts.Find(account => account.Id == id);
+                    student = (Student)department.GetAccountById(id);
                     break;
                 }
 
@@ -93,7 +93,7 @@ namespace GradeManageSystem.Models
             foreach (var department in Departments)
                 foreach (var student in students)
                 {
-                    if (department.Accounts.Any(account => account == student))
+                    if (department.IsAccountExist(student.Id))
                     {
                         Dictionary<string, string> courseGrade = new Dictionary<string, string>();
                         courseGrade.Add("id", student.Id.ToString());
@@ -101,8 +101,8 @@ namespace GradeManageSystem.Models
                         courseGrade.Add("department_name", department.Name.ToString());
                         courseGrade.Add("grade", student.Grade.ToString());
                         courseGrade.Add("score", student.CourseGrades[courseId].ToString());
-                        courseGrade.Add("year", (year ?? student.Courses.Find(course => course.Id == courseId).Year).ToString());
-                        courseGrade.Add("semester", (semester ?? student.Courses.Find(course => course.Id == courseId).Semester).ToString());
+                        courseGrade.Add("year", (year ?? student.GetCourse(courseId).Year).ToString());
+                        courseGrade.Add("semester", (semester ?? student.GetCourse(courseId).Semester).ToString());
                         courseGrades.Add(courseGrade);
                     }
                 }
@@ -127,7 +127,7 @@ namespace GradeManageSystem.Models
             foreach (var student in students)
             {
                 if (int.TryParse(gradeList[student.Id], out int score))
-                    student.CourseGrades[courseId] = score;
+                    student.SetScore(courseId, score);
                 else
                     throw new Exception("score parse to int fail");
             }
@@ -138,16 +138,16 @@ namespace GradeManageSystem.Models
             int maxValue = int.MinValue;
             accounts.ForEach((account) => 
             {
-                if (account.Authority == 3)
+                if (account.IsStudent())
                 {
                     if (maxValue < int.Parse(account.Id))
                         maxValue = int.Parse(account.Id.Substring(6, 3));
                 }
-                else if (account.Authority == 2)
+                else if (account.IsTeacher())
                 {/*TODO*/}
-                else if (account.Authority == 1)
+                else if (account.IsAcadamicAffair())
                 {/*TODO*/}
-                else if (account.Authority == 0)
+                else if (account.IsAdmin())
                 {/*TODO*/}
             });
 
@@ -156,7 +156,7 @@ namespace GradeManageSystem.Models
 
         public IAccount CreateAccount(Department department, AccountModel newAccount)
         {
-            if (newAccount.Authority == 3)
+            if (newAccount.IsStudent())
             {
                 Student student = new Student(YEAR+ department.Id.PadLeft(3, '0'), "", 3, "1", newAccount.UserInformation, null);
                 string tempId = (FindMaxId(department.FindAccountByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); ;
@@ -165,11 +165,11 @@ namespace GradeManageSystem.Models
                 department.Accounts.Add(student);
                 return student;
             }
-            else if (newAccount.Authority == 2)
+            else if (newAccount.IsTeacher())
             {/*TODO*/}
-            else if (newAccount.Authority == 1)
+            else if (newAccount.IsAcadamicAffair())
             {/*TODO*/}
-            else if (newAccount.Authority == 0)
+            else if (newAccount.IsAdmin())
             {/*TODO*/}
 
             return null;
