@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GradeManageSystem.Models;
-using Microsoft.AspNetCore.JsonPatch;
-using System.Reflection.Metadata.Ecma335;
 
 namespace GradeManageSystem.Controllers
 {
