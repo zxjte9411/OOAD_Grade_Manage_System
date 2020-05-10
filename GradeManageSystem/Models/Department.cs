@@ -49,7 +49,7 @@ namespace GradeManageSystem.Models
                     students.RemoveAt(i);
         }
 
-        public List<IAccount> GetAccountByAuthority(int authority)
+        public List<IAccount> GetAccountsByAuthority(int authority)
         {
             return Accounts.FindAll(account => account.Authority == authority);
         }
@@ -88,7 +88,7 @@ namespace GradeManageSystem.Models
         private Student CreateStudent(AccountModel newAccount, int year)
         {
             Student student = new Student(year + Id.PadLeft(3, '0'), "", 3, "1", newAccount.UserInformation, null);
-            student.Id += (GetMaxId(GetAccountByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0');
+            student.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0');
             student.Password = student.Id;
             Accounts.Add(student);
             return student;
