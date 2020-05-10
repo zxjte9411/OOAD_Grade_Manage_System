@@ -13,14 +13,17 @@ namespace GradeManageSystem.Models
         {
             return false;
         }
+
         public virtual bool IsAdmin()
         {
             return false;
         }
+
         public virtual bool IsStudent()
         {
             return false;
         }
+
         public virtual bool IsTeacher()
         {
             return false;
