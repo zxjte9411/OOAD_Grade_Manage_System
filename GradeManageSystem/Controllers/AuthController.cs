@@ -30,7 +30,7 @@ namespace GradeManageSystem.Controllers
                 var signKey = _configuration["Payload:Claims:SignKey"];
                 var expires = _configuration.GetValue<int>("Payload:Claims:Expires"); // min
                 var token = JwtHelpers.GenerateToken(issuer, signKey, account.Id, expires);
-                var result = _domainController.SigIn(account, token);
+                var result = _domainController.SignIn(account, token);
                 if (result != null)
                 {
                     return Ok(result);

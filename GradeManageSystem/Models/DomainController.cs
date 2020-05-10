@@ -149,12 +149,12 @@ namespace GradeManageSystem.Models
             return department.CreateAccount(newAccount, Year);
         }
 
-        public Dictionary<string, string> SigIn(IAccount loginAccount, string token)
+        public Dictionary<string, string> SignIn(IAccount loginAccount, string token)
         {
             if (loginAccount != null)
             {
                 var account = (Account)GetAccount(loginAccount.Id);
-                if (Login.ValidateUser(loginAccount.Password, account.Password))
+                if (account != null && Login.ValidateUser(loginAccount.Password, account.Password))
                 {
                     return account.GetComposedAccountData(token);
                 }
