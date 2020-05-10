@@ -26,42 +26,39 @@ namespace GradeManageSystem
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowMyOrigin",
-                builder =>
+                builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+
+            });
+
+            services.AddSingleton<DomainController>();
+            services.AddSingleton<JwtHelpers>();
+            services.AddControllers();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因
+                options.IncludeErrorDetails = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    builder.AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                });
+                    // 透過這項宣告，就可以從 "sub" 取值並設定給 User.Identity.Name
+                    NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+                    // 透過這項宣告，就可以從 "roles" 取值，並可讓 [Authorize] 判斷角色
+                    RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+                    // 一般都會驗證 Issuer
+                    ValidateIssuer = true,
+                    ValidIssuer = Configuration["Payload:Claims:Issuer"],
 
-                services.AddSingleton<DomainController>();
-                services.AddSingleton<JwtHelpers>();
-                services.AddControllers();
-
-                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-                {
-                    // �����ҥ��ѮɡA�^�����Y�|�]�t WWW-Authenticate ���Y�A�o�̷|��ܥ��Ѫ��Բӿ��~��]
-                    options.IncludeErrorDetails = true;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        // �z�L�o���ŧi�A�N�i�H�q "sub" ���Ȩó]�w�� User.Identity.Name
-                        NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
-                        // �z�L�o���ŧi�A�N�i�H�q "roles" ���ȡA�åi�� [Authorize] �P�_����
-                        RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                        // �@�볣�|���� Issuer
-                        ValidateIssuer = true,
-                        ValidIssuer = Configuration["Payload:Claims:Issuer"],
-
-                        // �@�뤣�ӻݭn���� Audience
-                        ValidateAudience = false,
-                        // �@�볣�|���� Token �����Ĵ���
-                        ValidateLifetime = true,
-                        // �p�G Token ���]�t key �~�ݭn���ҡA�@�볣�u��ñ���Ӥw
-                        ValidateIssuerSigningKey = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Payload:Claims:SignKey"]))
-                    };
-                });
+                    // 一般不太需要驗證 Audience
+                    ValidateAudience = false,
+                    // 一般都會驗證 Token 的有效期間
+                    ValidateLifetime = true,
+                    // 如果 Token 中包含 key 才需要驗證，一般都只有簽章而已
+                    ValidateIssuerSigningKey = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Payload:Claims:SignKey"]))
+                };
             });
         }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -71,13 +68,14 @@ namespace GradeManageSystem
             }
 
             app.UseCors("AllowMyOrigin");
-            //app.UseHttpsRedirection();
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthentication();// ������
+            app.UseAuthentication();// 先驗證
 
-            app.UseAuthorization();// �A���v
+            app.UseAuthorization();// 再授權
 
             app.UseEndpoints(endpoints =>
             {
