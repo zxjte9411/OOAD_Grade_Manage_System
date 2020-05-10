@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GradeManageSystem.Models
 {
-    public class Teacher : IAccount
+    public class Teacher : Account
     {
         public Teacher(string id, string password, int authority, 
             UserInformation userInformation, List<Course> courses)
@@ -16,10 +16,10 @@ namespace GradeManageSystem.Models
             UserInformation = userInformation;
             Courses = courses;
         }
-        public string Id { get; set; }
-        public string Password { get; set; }
-        public int Authority { get; set; }
-        public UserInformation UserInformation { get; set; }
+        //public string Id { get; set; }
+        //public string Password { get; set; }
+        //public int Authority { get; set; }
+        //public UserInformation UserInformation { get; set; }
         public List<Course> Courses { get; set; }
         
         public Dictionary<string, string> GetSemesterCourses(int year, int semester)
@@ -32,21 +32,21 @@ namespace GradeManageSystem.Models
 
             return courses;
         }
-        public bool IsStudent()
+        //public bool IsStudent()
+        //{
+        //    return Authority == 3;
+        //}
+        //public bool IsAdmin()
+        //{
+        //    return Authority == 0;
+        //}
+        public override bool IsTeacher()
         {
-            return Authority == 3;
+            return true;
         }
-        public bool IsAdmin()
-        {
-            return Authority == 0;
-        }
-        public bool IsTeacher()
-        {
-            return Authority == 2;
-        }
-        public bool IsAcadamicAffair()
-        {
-            return Authority == 1;
-        }
+        //public bool IsAcadamicAffair()
+        //{
+        //    return Authority == 1;
+        //}
     }
 }
