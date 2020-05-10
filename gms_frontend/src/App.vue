@@ -5,6 +5,7 @@
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap');
 #app {
   font-family: 'Noto Sans TC', sans-serif;
   -webkit-font-smoothing: antialiased;

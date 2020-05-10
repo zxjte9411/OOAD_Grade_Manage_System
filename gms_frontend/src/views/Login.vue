@@ -88,11 +88,10 @@ export default {
           return res;
         })
         .catch(async function(err) {
-          console.log(err.response);
+          console.log(err);
           return err;
         });
       if (res.status >= 200 && res.status < 300) {
-        console.log(res.data);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user_id", res.data.id);
         localStorage.setItem("authority", res.data.authority);

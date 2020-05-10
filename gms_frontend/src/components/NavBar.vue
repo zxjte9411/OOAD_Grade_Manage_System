@@ -8,24 +8,19 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="mr-auto">
-          <b-nav-item v-if="isShow" href="#/project">Project</b-nav-item>
-          <b-nav-item href="#/issue">修改成績</b-nav-item>
-          <b-nav-item v-if="isShow" href="#/accountmanagement">AccountManagement</b-nav-item>
-          <b-nav-item href="#/report"></b-nav-item>
+          <b-nav-item v-if="!isAdmin" href="#/modifyGrade">修改成績</b-nav-item>
+          <!-- <b-nav-item href="#/modifyGrade">修改成績</b-nav-item> -->
+          <b-nav-item v-if="isAdmin" href="#/accountmanagement">AccountManagement</b-nav-item>
+          <!-- <b-nav-item href="#/report"></b-nav-item> -->
         </b-navbar-nav>
-
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item id="user-name">Hi，{{userName}}</b-nav-item>
-          <!-- <b-button variant="transparent">
-            <font-awesome-icon icon="info-circle" size="lg" />
-          </b-button>-->
-
           <b-nav-item-dropdown right>
             <template v-slot:button-content>
               <font-awesome-icon icon="user" size="lg" />
             </template>
-            <b-dropdown-item href="#/profile">Profile</b-dropdown-item>
+            <!-- <b-dropdown-item href="#/profile">Profile</b-dropdown-item> -->
             <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -41,7 +36,7 @@ export default {
   data() {
     return {
       userName: "",
-      isShow: false
+      isAdmin: false
     };
   },
   methods: {
@@ -54,9 +49,9 @@ export default {
       const token = localStorage.getItem("token");
       const authority = localStorage.getItem("authority");
       if (token !== null) {
-        this.isShow = true;
+        this.isAdmin = true;
         if (authority != "0") {
-          this.isShow = false;
+          this.isAdmin = false;
         }
       }
       const api = `${process.env.VUE_APP_APIPATH}/api/admin/accounts/${user_id}`;
@@ -74,9 +69,12 @@ export default {
         .catch(err => {
           return err.response;
         });
-      this.userName = res.data.userInformation.name;
-      // if (res.data.charactorId == 1) this.isShow = true;
-      // else this.isShow = false;
+      if (res.status >= 200 && res.status < 300) {
+        this.userName = res.data.userInformation.name;
+      } else {
+        localStorage.clear()
+        this.$router.push("/")
+      }
     }
   },
   mounted() {
