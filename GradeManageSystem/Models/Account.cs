@@ -4,6 +4,14 @@ namespace GradeManageSystem.Models
 {
     public abstract class Account : IAccount
     {
+        //protected Account() { }
+        protected Account(string id, string password, int authority, UserInformation userInformation)
+        {
+            Id = id;
+            Password = password;
+            Authority = authority;
+            UserInformation = userInformation;
+        }
         public virtual string Id { get; set; }
         public virtual string Password { get; set; }
         public virtual int Authority { get; set; }

@@ -7,13 +7,14 @@ namespace GradeManageSystem.Models
 {
     public class AccountModel : Account
     {
-        public AccountModel() { }
-        public AccountModel(string id, string password, int authority, UserInformation userInformation)
+        public AccountModel():base("", "" , -1, null) { }
+        public AccountModel(string id, string password, int authority, UserInformation userInformation):
+            base(id, password, authority, userInformation)
         {
-            Id = id;
-            Password = password;
-            Authority = authority;
-            UserInformation = userInformation;
+            //Id = id;
+            //Password = password;
+            //Authority = authority;
+            //UserInformation = userInformation;
         }
 
         //public string Id { get; set; }

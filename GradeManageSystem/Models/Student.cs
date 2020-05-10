@@ -1,22 +1,20 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GradeManageSystem.Models
 {
     public class Student : Account
     {
-        public Student()
+        public Student():base("", "", 3, null)
         {
         }
 
         public Student(string id, string password, int authority, string grade,
             UserInformation userInformation, Dictionary<Course, int> courseGrade)
+            :base(id, password, authority, userInformation)
         {
-            Id = id;
-            Password = password;
-            Authority = authority;
+            //Id = id;
+            //Password = password;
+            //Authority = authority;
             UserInformation = userInformation;
             Courses = new List<Course>();
             CourseGrades = new Dictionary<string, int>();

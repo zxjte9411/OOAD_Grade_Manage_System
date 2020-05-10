@@ -7,12 +7,13 @@ namespace GradeManageSystem.Models
 {
     public class AcadamicAffairs : Account
     {
-        public AcadamicAffairs(string id, string password, int authority, UserInformation userInformation)
+        public AcadamicAffairs(string id, string password, int authority, UserInformation userInformation) : 
+            base(id, password, authority, userInformation)
         {
-            Id = id;
-            Password = password;
-            Authority = authority;
-            UserInformation = userInformation;
+            //Id = id;
+            //Password = password;
+            //Authority = authority;
+            //UserInformation = userInformation;
         }
         //public string Id { get; set; }
         //public string Password { get; set; }

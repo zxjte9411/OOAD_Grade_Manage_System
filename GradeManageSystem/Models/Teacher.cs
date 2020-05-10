@@ -8,11 +8,12 @@ namespace GradeManageSystem.Models
     public class Teacher : Account
     {
         public Teacher(string id, string password, int authority, 
-            UserInformation userInformation, List<Course> courses)
+            UserInformation userInformation, List<Course> courses):
+            base(id, password, authority, userInformation)
         {
-            Id = id;
-            Password = password;
-            Authority = authority;
+            //Id = id;
+            //Password = password;
+            //Authority = authority;
             UserInformation = userInformation;
             Courses = courses;
         }
