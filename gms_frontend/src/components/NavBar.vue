@@ -8,10 +8,10 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="mr-auto">
-          <b-nav-item v-if="!isAdmin" href="#/project">修改成績</b-nav-item>
-          <b-nav-item href="#/issue">修改成績</b-nav-item>
+          <b-nav-item v-if="!isAdmin" href="#/modifyGrade">修改成績</b-nav-item>
+          <!-- <b-nav-item href="#/modifyGrade">修改成績</b-nav-item> -->
           <b-nav-item v-if="isAdmin" href="#/accountmanagement">AccountManagement</b-nav-item>
-          <b-nav-item href="#/report"></b-nav-item>
+          <!-- <b-nav-item href="#/report"></b-nav-item> -->
         </b-navbar-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
@@ -20,7 +20,7 @@
             <template v-slot:button-content>
               <font-awesome-icon icon="user" size="lg" />
             </template>
-            <b-dropdown-item href="#/profile">Profile</b-dropdown-item>
+            <!-- <b-dropdown-item href="#/profile">Profile</b-dropdown-item> -->
             <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -69,7 +69,12 @@ export default {
         .catch(err => {
           return err.response;
         });
-      this.userName = res.data.userInformation.name;
+      if (res.status >= 200 && res.status < 300) {
+        this.userName = res.data.userInformation.name;
+      } else {
+        localStorage.clear()
+        this.$router.push("/")
+      }
     }
   },
   mounted() {
