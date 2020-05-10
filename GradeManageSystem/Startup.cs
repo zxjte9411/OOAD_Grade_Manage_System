@@ -26,41 +26,42 @@ namespace GradeManageSystem
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowMyOrigin",
-                builder => {
+                builder =>
+                {
                     builder.AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod();
-            });
+                });
 
-            services.AddSingleton<DomainController>();
-            services.AddSingleton<JwtHelpers>();
-            services.AddControllers();
+                services.AddSingleton<DomainController>();
+                services.AddSingleton<JwtHelpers>();
+                services.AddControllers();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
-            {
-                // �����ҥ��ѮɡA�^�����Y�|�]�t WWW-Authenticate ���Y�A�o�̷|��ܥ��Ѫ��Բӿ��~��]
-                options.IncludeErrorDetails = true;
-                options.TokenValidationParameters = new TokenValidationParameters
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
                 {
-                    // �z�L�o���ŧi�A�N�i�H�q "sub" ���Ȩó]�w�� User.Identity.Name
-                    NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
-                    // �z�L�o���ŧi�A�N�i�H�q "roles" ���ȡA�åi�� [Authorize] �P�_����
-                    RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                    // �@�볣�|���� Issuer
-                    ValidateIssuer = true,
-                    ValidIssuer = Configuration["Payload:Claims:Issuer"],
+                    // �����ҥ��ѮɡA�^�����Y�|�]�t WWW-Authenticate ���Y�A�o�̷|��ܥ��Ѫ��Բӿ��~��]
+                    options.IncludeErrorDetails = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // �z�L�o���ŧi�A�N�i�H�q "sub" ���Ȩó]�w�� User.Identity.Name
+                        NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+                        // �z�L�o���ŧi�A�N�i�H�q "roles" ���ȡA�åi�� [Authorize] �P�_����
+                        RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+                        // �@�볣�|���� Issuer
+                        ValidateIssuer = true,
+                        ValidIssuer = Configuration["Payload:Claims:Issuer"],
 
-                    // �@�뤣�ӻݭn���� Audience
-                    ValidateAudience = false,
-                    // �@�볣�|���� Token �����Ĵ���
-                    ValidateLifetime = true,
-                    // �p�G Token ���]�t key �~�ݭn���ҡA�@�볣�u��ñ���Ӥw
-                    ValidateIssuerSigningKey = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Payload:Claims:SignKey"]))
-                };
+                        // �@�뤣�ӻݭn���� Audience
+                        ValidateAudience = false,
+                        // �@�볣�|���� Token �����Ĵ���
+                        ValidateLifetime = true,
+                        // �p�G Token ���]�t key �~�ݭn���ҡA�@�볣�u��ñ���Ӥw
+                        ValidateIssuerSigningKey = false,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Payload:Claims:SignKey"]))
+                    };
+                });
             });
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
