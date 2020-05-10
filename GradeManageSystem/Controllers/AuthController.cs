@@ -22,7 +22,7 @@ namespace GradeManageSystem.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("/token")]
-        public ActionResult SigIn(AccountModel account)
+        public ActionResult SignIn(AccountModel account)
         {
             if (account != null && ValidateUser(account))
             {
