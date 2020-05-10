@@ -28,7 +28,7 @@ namespace GradeManageSystem.Controllers
             return NotFound();
         }
 
-        [HttpGet("department/{department_id}")]
+        [HttpGet("department/{departmentId}")]
         public IActionResult GetAccounts(string departmentId)
         {
             if (departmentId != null) 
@@ -42,8 +42,8 @@ namespace GradeManageSystem.Controllers
             return BadRequest();
         }
 
-        [HttpPost("{departmentId}")]
-        public IActionResult CreateAccount(int? departmentId, AccountModel newAccount)
+        [HttpPost("department/{departmentId}")]
+        public IActionResult CreateAccount(string departmentId, AccountModel newAccount)
         {
             if (departmentId != null)
             {
@@ -52,7 +52,7 @@ namespace GradeManageSystem.Controllers
             return BadRequest();
         }
 
-        [HttpPost("{departmentId}/{id}")]
+        [HttpPost("department/{departmentId}/{id}")]
         public IActionResult UpdateAccountOfDepartment(string departmentId, string id, UserInformation userInformation)
         {
             if (departmentId != null && id != null)
