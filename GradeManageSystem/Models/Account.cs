@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GradeManageSystem.Models
 {
@@ -28,5 +25,13 @@ namespace GradeManageSystem.Models
         {
             return false;
         }
+
+        public virtual Dictionary<string, string> GetComposedAccountData(string token) => 
+            new Dictionary<string, string>
+                {
+                    { "authority", Authority.ToString() },
+                    { "id", Id },
+                    { "token", token }
+                };
     }
 }
