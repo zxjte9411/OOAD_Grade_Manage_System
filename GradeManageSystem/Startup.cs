@@ -26,8 +26,10 @@ namespace GradeManageSystem
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowMyOrigin",
-                builder => builder.AllowAnyHeader().AllowAnyOrigin());
-
+                builder => {
+                    builder.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
             });
 
             services.AddSingleton<DomainController>();
@@ -36,23 +38,23 @@ namespace GradeManageSystem
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
             {
-                // ·íÅçÃÒ¥¢±Ñ®É¡A¦^À³¼ÐÀY·|¥]§t WWW-Authenticate ¼ÐÀY¡A³o¸Ì·|Åã¥Ü¥¢±Ñªº¸Ô²Ó¿ù»~­ì¦]
+                // ï¿½ï¿½ï¿½ï¿½ï¿½Ò¥ï¿½ï¿½Ñ®É¡Aï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Yï¿½|ï¿½]ï¿½t WWW-Authenticate ï¿½ï¿½ï¿½Yï¿½Aï¿½oï¿½Ì·|ï¿½ï¿½Ü¥ï¿½ï¿½Ñªï¿½ï¿½Ô²Ó¿ï¿½ï¿½~ï¿½ï¿½]
                 options.IncludeErrorDetails = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    // ³z¹L³o¶µ«Å§i¡A´N¥i¥H±q "sub" ¨ú­È¨Ã³]©wµ¹ User.Identity.Name
+                    // ï¿½zï¿½Lï¿½oï¿½ï¿½ï¿½Å§iï¿½Aï¿½Nï¿½iï¿½Hï¿½q "sub" ï¿½ï¿½ï¿½È¨Ã³]ï¿½wï¿½ï¿½ User.Identity.Name
                     NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
-                    // ³z¹L³o¶µ«Å§i¡A´N¥i¥H±q "roles" ¨ú­È¡A¨Ã¥iÅý [Authorize] §PÂ_¨¤¦â
+                    // ï¿½zï¿½Lï¿½oï¿½ï¿½ï¿½Å§iï¿½Aï¿½Nï¿½iï¿½Hï¿½q "roles" ï¿½ï¿½ï¿½È¡Aï¿½Ã¥iï¿½ï¿½ [Authorize] ï¿½Pï¿½_ï¿½ï¿½ï¿½ï¿½
                     RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                    // ¤@¯ë³£·|ÅçÃÒ Issuer
+                    // ï¿½@ï¿½ë³£ï¿½|ï¿½ï¿½ï¿½ï¿½ Issuer
                     ValidateIssuer = true,
                     ValidIssuer = Configuration["Payload:Claims:Issuer"],
 
-                    // ¤@¯ë¤£¤Ó»Ý­nÅçÃÒ Audience
+                    // ï¿½@ï¿½ë¤£ï¿½Ó»Ý­nï¿½ï¿½ï¿½ï¿½ Audience
                     ValidateAudience = false,
-                    // ¤@¯ë³£·|ÅçÃÒ Token ªº¦³®Ä´Á¶¡
+                    // ï¿½@ï¿½ë³£ï¿½|ï¿½ï¿½ï¿½ï¿½ Token ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
                     ValidateLifetime = true,
-                    // ¦pªG Token ¤¤¥]§t key ¤~»Ý­nÅçÃÒ¡A¤@¯ë³£¥u¦³Ã±³¹¦Ó¤w
+                    // ï¿½pï¿½G Token ï¿½ï¿½ï¿½]ï¿½t key ï¿½~ï¿½Ý­nï¿½ï¿½ï¿½Ò¡Aï¿½@ï¿½ë³£ï¿½uï¿½ï¿½Ã±ï¿½ï¿½ï¿½Ó¤w
                     ValidateIssuerSigningKey = false,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Payload:Claims:SignKey"]))
                 };
@@ -68,14 +70,13 @@ namespace GradeManageSystem
             }
 
             app.UseCors("AllowMyOrigin");
-
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthentication();// ¥ýÅçÃÒ
+            app.UseAuthentication();// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-            app.UseAuthorization();// ¦A±ÂÅv
+            app.UseAuthorization();// ï¿½Aï¿½ï¿½ï¿½v
 
             app.UseEndpoints(endpoints =>
             {
