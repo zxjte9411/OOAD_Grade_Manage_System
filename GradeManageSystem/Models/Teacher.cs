@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GradeManageSystem.Models
 {
-    public class Teacher : IAccount
+    public class Teacher : Account
     {
         public Teacher(string id, string password, int authority, 
-            UserInformation userInformation, List<Course> courses)
+            UserInformation userInformation, List<Course> courses):
+            base(id, password, authority, userInformation)
         {
-            Id = id;
-            Password = password;
-            Authority = authority;
             UserInformation = userInformation;
             Courses = courses;
         }
-        public string Id { get; set; }
-        public string Password { get; set; }
-        public int Authority { get; set; }
-        public UserInformation UserInformation { get; set; }
+
         public List<Course> Courses { get; set; }
         
         public Dictionary<string, string> GetSemesterCourses(int year, int semester)
@@ -32,21 +24,10 @@ namespace GradeManageSystem.Models
 
             return courses;
         }
-        public bool IsStudent()
+
+        public override bool IsTeacher()
         {
-            return Authority == 3;
-        }
-        public bool IsAdmin()
-        {
-            return Authority == 0;
-        }
-        public bool IsTeacher()
-        {
-            return Authority == 2;
-        }
-        public bool IsAcadamicAffair()
-        {
-            return Authority == 1;
+            return true;
         }
     }
 }

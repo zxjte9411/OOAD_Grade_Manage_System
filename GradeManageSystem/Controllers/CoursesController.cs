@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GradeManageSystem.Models;
-using Microsoft.AspNetCore.Http;
+﻿using GradeManageSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GradeManageSystem.Controller

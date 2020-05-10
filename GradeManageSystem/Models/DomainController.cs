@@ -148,5 +148,18 @@ namespace GradeManageSystem.Models
 
             return department.CreateAccount(newAccount, Year);
         }
+
+        public Dictionary<string, string> SignIn(IAccount loginAccount, string token)
+        {
+            if (loginAccount != null)
+            {
+                var account = (Account)GetAccount(loginAccount.Id);
+                if (account != null && Login.ValidateUser(loginAccount.Password, account.Password))
+                {
+                    return account.GetComposedAccountData(token);
+                }
+            }
+            return null;
+        }
     }
 }

@@ -3,8 +3,6 @@ using GradeManageSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 
 namespace GradeManageSystem.Controllers
 {
@@ -24,7 +22,7 @@ namespace GradeManageSystem.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("/token")]
-        public ActionResult SigIn(AccountModel account)
+        public ActionResult SignIn(AccountModel account)
         {
             if (account != null && ValidateUser(account))
             {
@@ -32,17 +30,13 @@ namespace GradeManageSystem.Controllers
                 var signKey = _configuration["Payload:Claims:SignKey"];
                 var expires = _configuration.GetValue<int>("Payload:Claims:Expires"); // min
                 var token = JwtHelpers.GenerateToken(issuer, signKey, account.Id, expires);
-                Dictionary<string, string> result = new Dictionary<string, string>();
-                var login = _domainController.GetAccount(account.Id);
-                result.Add("authority", login.Authority.ToString());
-                result.Add("id", login.Id);
-                result.Add("token", token);
-                return Ok(result);
+                var result = _domainController.SignIn(account, token);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
             }
-            else
-            {
-                return NotFound("User not Exist or Pssword Error");
-            }
+            return NotFound("User not Exist or Pssword Error");   
         }
 
         private bool ValidateUser(IAccount account)
@@ -50,8 +44,8 @@ namespace GradeManageSystem.Controllers
             var login = _domainController.GetAccount(account.Id);
             if (login != null)
                 return login.Password == account.Password;
-            return false;
 
+            return false;
         }
     }
 }

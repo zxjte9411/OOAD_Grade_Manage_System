@@ -446,5 +446,34 @@ namespace GradeManageSystem.Models.Tests
             domainController.UpdateUserInformationOfDepartment("205", "123", userInformation2);
             Assert.AreEqual(userInformation2, domainController.GetAccount("123").UserInformation);
         }
+
+        [TestMethod()]
+        public void SignInTest()
+        {
+            List<Department> departments = new List<Department>();
+            UserInformation userInformation = new UserInformation("test", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
+            List<Course> courses = new List<Course>();
+            Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
+            Administrator administrator = new Administrator("2313", "1111", 0, userInformation);
+            Administrator test = new Administrator("sdf", "1111", 0, userInformation);
+
+            List<IAccount> accounts = new List<IAccount>();
+            accounts.Add(teacher);
+            accounts.Add(administrator);
+            Department department = new Department("205", "CS", accounts, courses);
+            departments.Add(department);
+
+            DomainController domainController = new DomainController(departments, new Login());
+            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>()
+            {
+                { "authority", "2" },
+                { "id", "123" },
+                { "token", "wer" }
+            };
+
+            Assert.AreEqual(null, domainController.SignIn(null, "aaa"));
+            CollectionAssert.AreEqual(keyValuePairs, domainController.SignIn(teacher, "wer"));
+            Assert.AreEqual(null, domainController.SignIn(test, "aaa"));
+        }
     }
 }

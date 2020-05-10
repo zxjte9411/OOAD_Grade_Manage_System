@@ -1,40 +1,56 @@
 <template>
-  <div>
-    <b-form @submit.prevent="login">
-      <b-form-group
-        id="fieldset-userID"
-        label="Enter your userID"
-        label-for="input-userID"
-        :invalid-feedback="invalidUserIDFeedback"
-        :valid-feedback="validFeedback"
-        :state="userIDState"
-      >
-        <b-form-input id="account" v-model="userID" :state="userIDState" type="text" trim required></b-form-input>
-      </b-form-group>
+    <b-container fluid class="d-flex justify-content-center" :style="styleObject">
+      <b-row class="text-center mt-5">
+        <b-form @submit.prevent="login">
+          <!-- <img src="@/assets/logo.png" alt class="mb-3" width="160" height="80"> -->
+          <img class="mb-3" src="https://img.icons8.com/material/144/000000/padlock-outline.png"/>
+          <b-card-group>
+            <b-card title="登入">
+              <b-form-group
+                id="fieldset-userID"
+                label="Enter your account Id"
+                label-for="input-userID"
+                :invalid-feedback="invalidUserIDFeedback"
+                :valid-feedback="validFeedback"
+                :state="userIDState"
+              >
+                <b-form-input
+                  id="account"
+                  v-model="userID"
+                  :state="userIDState"
+                  type="text"
+                  trim
+                  required
+                ></b-form-input>
+              </b-form-group>
 
-      <b-form-group
-        id="fieldset-password"
-        label="Enter your password"
-        label-for="input-password"
-        :invalid-feedback="invalidPasswordFeedback"
-        :valid-feedback="validFeedback"
-        :state="passwordState"
-      >
-        <b-form-input
-          id="password"
-          v-model="password"
-          :state="passwordState"
-          type="password"
-          trim
-          required
-        ></b-form-input>
-      </b-form-group>
-      <b-button type="submit" :disabled="!btnLoginEnabled">Login In</b-button>
-      <b-modal id="Alertmodal" ref="AlertModal" ok-only centered>
-        <b-alert class="left" show variant="danger">"wrong account or password"</b-alert>
-      </b-modal>
-    </b-form>
-  </div>
+              <b-form-group
+                id="fieldset-password"
+                label="Enter your password"
+                label-for="input-password"
+                :invalid-feedback="invalidPasswordFeedback"
+                :valid-feedback="validFeedback"
+                :state="passwordState"
+              >
+                <b-form-input
+                  id="password"
+                  v-model="password"
+                  :state="passwordState"
+                  type="password"
+                  trim
+                  required
+                ></b-form-input>
+              </b-form-group>
+              <b-button type="submit" :disabled="!btnLoginEnabled">Login In</b-button>
+              <b-modal id="Alertmodal" ref="AlertModal" ok-only centered>
+                <b-alert class="left" show variant="danger">"wrong account or password"</b-alert>
+              </b-modal>
+            </b-card>
+          </b-card-group>
+          <p class="mt-5 mb-3 text-muted">© 2020-202</p>
+        </b-form>
+      </b-row>
+    </b-container>
 </template>
 <script>
 import { async } from "q";
@@ -43,6 +59,11 @@ const axios = require("axios").default;
 export default {
   data() {
     return {
+      styleObject:{
+        "background-color": "#f5f5f5",
+        "position": "fixed",
+        height: "100%"
+      },
       userID: "",
       password: "",
       isPasswordOrUserIDError: false
@@ -50,7 +71,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem("token") !== null) {
-      this.gotToCorrectPage()
+      this.gotToCorrectPage();
     }
   },
   components: {},
@@ -71,12 +92,12 @@ export default {
           return err;
         });
       if (res.status >= 200 && res.status < 300) {
-        console.log(res.data)
+        console.log(res.data);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user_id", res.data.id);
         localStorage.setItem("authority", res.data.authority);
         this.isPasswordOrUserIDError = false;
-        this.gotToCorrectPage()
+        this.gotToCorrectPage();
       } else {
         this.isPasswordOrUserIDError = true;
         this.$refs.AlertModal.show();

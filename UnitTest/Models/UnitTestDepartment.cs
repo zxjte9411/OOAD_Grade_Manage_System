@@ -95,8 +95,8 @@ namespace GradeManageSystem.Models.Tests
 
             Department department = new Department("205", "CS", accounts, courses);
 
-            CollectionAssert.AreEqual(accounts.GetRange(0, 3), department.GetAccountByAuthority(3));
-            CollectionAssert.AreEqual(accounts.GetRange(3, 1), department.GetAccountByAuthority(2));
+            CollectionAssert.AreEqual(accounts.GetRange(0, 3), department.GetAccountsByAuthority(3));
+            CollectionAssert.AreEqual(accounts.GetRange(3, 1), department.GetAccountsByAuthority(2));
         }
 
         [TestMethod()]
