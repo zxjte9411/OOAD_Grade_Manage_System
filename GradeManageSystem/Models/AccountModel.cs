@@ -10,17 +10,8 @@ namespace GradeManageSystem.Models
         public AccountModel():base("", "" , -1, null) { }
         public AccountModel(string id, string password, int authority, UserInformation userInformation):
             base(id, password, authority, userInformation)
-        {
-            //Id = id;
-            //Password = password;
-            //Authority = authority;
-            //UserInformation = userInformation;
-        }
+        { }
 
-        //public string Id { get; set; }
-        //public string Password { get; set; }
-        //public int Authority { get; set; }
-        //public UserInformation UserInformation { get; set; }
         public override bool IsStudent()
         {
             return Authority == 3;

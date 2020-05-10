@@ -11,16 +11,10 @@ namespace GradeManageSystem.Models
             UserInformation userInformation, List<Course> courses):
             base(id, password, authority, userInformation)
         {
-            //Id = id;
-            //Password = password;
-            //Authority = authority;
             UserInformation = userInformation;
             Courses = courses;
         }
-        //public string Id { get; set; }
-        //public string Password { get; set; }
-        //public int Authority { get; set; }
-        //public UserInformation UserInformation { get; set; }
+
         public List<Course> Courses { get; set; }
         
         public Dictionary<string, string> GetSemesterCourses(int year, int semester)
@@ -33,21 +27,10 @@ namespace GradeManageSystem.Models
 
             return courses;
         }
-        //public bool IsStudent()
-        //{
-        //    return Authority == 3;
-        //}
-        //public bool IsAdmin()
-        //{
-        //    return Authority == 0;
-        //}
+
         public override bool IsTeacher()
         {
             return true;
         }
-        //public bool IsAcadamicAffair()
-        //{
-        //    return Authority == 1;
-        //}
     }
 }

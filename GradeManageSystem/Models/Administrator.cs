@@ -9,31 +9,10 @@ namespace GradeManageSystem.Models
     {
         public Administrator(string id, string password, int authority, UserInformation userInformation):
             base(id, password, authority, userInformation)
-        {
-            //Id = id;
-            //Password = password;
-            //Authority = authority;
-            //UserInformation = userInformation;
-        }
-        //public string Id { get; set; }
-        //public string Password { get; set; }
-        //public int Authority { get; set; }
-        //public UserInformation UserInformation { get; set; }
-        //public bool IsStudent()
-        //{
-        //    return Authority == 3;
-        //}
+        { }
         public override bool IsAdmin()
         {
             return true;
         }
-        //public bool IsTeacher()
-        //{
-        //    return Authority == 2;
-        //}
-        //public bool IsAcadamicAffair()
-        //{
-        //    return Authority == 1;
-        //}
     }
 }

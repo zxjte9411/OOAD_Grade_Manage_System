@@ -5,16 +5,12 @@ namespace GradeManageSystem.Models
     public class Student : Account
     {
         public Student():base("", "", 3, null)
-        {
-        }
+        { }
 
         public Student(string id, string password, int authority, string grade,
             UserInformation userInformation, Dictionary<Course, int> courseGrade)
             :base(id, password, authority, userInformation)
         {
-            //Id = id;
-            //Password = password;
-            //Authority = authority;
             UserInformation = userInformation;
             Courses = new List<Course>();
             CourseGrades = new Dictionary<string, int>();
@@ -28,10 +24,7 @@ namespace GradeManageSystem.Models
                 }
             }
         }
-        //public string Id { get; set; }
-        //public string Password { get; set; }
-        //public int Authority { get; set; }
-        //public UserInformation UserInformation { get; set; }
+
         public string Grade { get; set; }
         public List<Course> Courses { get; set; }
         public Dictionary<string, int> CourseGrades { get; set; }
@@ -39,18 +32,6 @@ namespace GradeManageSystem.Models
         {
             return true;
         }
-        //public bool IsAdmin()
-        //{
-        //    return Authority == 0;
-        //}
-        //public bool IsTeacher()
-        //{
-        //    return Authority == 2;
-        //}
-        //public bool IsAcadamicAffair()
-        //{
-        //    return Authority == 1;
-        //}
 
         public Course GetCourse(string id)
         {
