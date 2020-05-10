@@ -1,7 +1,6 @@
 using GradeManageSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace GradeManageSystem.Controllers
 {
