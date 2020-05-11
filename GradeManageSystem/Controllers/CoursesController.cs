@@ -1,7 +1,7 @@
 ﻿using GradeManageSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GradeManageSystem.Controller
+namespace GradeManageSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
