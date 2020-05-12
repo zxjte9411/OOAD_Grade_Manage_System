@@ -21,7 +21,7 @@
             <!-- 成績表 -->
             <b-table show-empty small stacked="md" :items="students" :fields="fields">
               <template v-slot:cell(name)="row">{{ row.value }}</template>
-              <template v-slot:cell(grade)="row">{{ row.item.department_name }} {{ row.item.grade }}</template>
+              <template v-slot:cell(grade)="row">{{ row.item.department_name }}-{{ row.item.grade }}</template>
               <template v-slot:cell(score)="row">
                 <input
                   type="number"
@@ -112,7 +112,7 @@ export default {
         },
         {
           key: "grade",
-          label: "年級",
+          label: "班級",
           sortable: true,
           sortDirection: "desc",
           class: "text-center"
