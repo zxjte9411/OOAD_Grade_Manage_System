@@ -115,17 +115,17 @@ namespace GradeManageSystem.Models
             List<Student> students = new List<Student>();
 
             foreach (var department in Departments)
-                students.AddRange(department.GetStudentsOfCourse(courseId, year, semester));
+                students.AddRange(department.GetStudentsByCourse(courseId, year, semester));
 
             return students;
         }
 
-        public void UpdateCourseScoreTable(string courseId, Dictionary<string, string> gradeList)
+        public void UpdateCourseScoreTable(string courseId, Dictionary<string, string> scoreTable)
         {
             List<Student> students = GetStudentsByCourse(courseId, Year, Semester);
 
             foreach (var student in students)
-                student.SetScore(courseId, int.Parse(gradeList[student.Id]));
+                student.SetScore(courseId, int.Parse(scoreTable[student.Id]));
         }
 
         public void UpdateUserInformationByDepartment(string departmentId, string id, UserInformation userInformation)

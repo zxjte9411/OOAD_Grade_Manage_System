@@ -17,7 +17,7 @@ namespace GradeManageSystem.Models
         public List<Account> Accounts { get; set; }
         public List<Course> Courses { get; set; }
 
-        public List<Student> GetStudentsOfCourse(string courseId, int? year, int? semester)
+        public List<Student> GetStudentsByCourse(string courseId, int? year, int? semester)
         {
             List<Student> students = new List<Student>();
             Student student;

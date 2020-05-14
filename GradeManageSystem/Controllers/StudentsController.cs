@@ -29,7 +29,7 @@ namespace GradeManageSystem.Controllers
 
         // GET: api/students/course/{courseId}/{year}/{semester}
         [HttpGet("course/{courseId}/{year}/{semester}")]
-        public IActionResult GetScoreTableLastSemester(string courseId, int? year, int? semester)
+        public IActionResult GetScoreTableSemester(string courseId, int? year, int? semester)
         {
             if (courseId != null && year != null && semester != null)
             {
