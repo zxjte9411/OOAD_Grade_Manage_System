@@ -235,7 +235,7 @@ export default {
       });
       await axios
         .post(
-          `${process.env.VUE_APP_APIPATH}/api/students/grade/${this.course_id}/${this.year}/${this.semester}`,
+          `${process.env.VUE_APP_APIPATH}/api/students/grade/${this.course_id}/`,
           data,
           {
             headers: {
