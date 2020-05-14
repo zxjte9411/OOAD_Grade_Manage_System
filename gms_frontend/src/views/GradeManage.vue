@@ -11,24 +11,11 @@
 </template>
 
 <script>
-import axios from "axios";
-import { async } from "q";
 import NavBar from "@/components/NavBar";
 
 export default {
   data() {
     return {
-      // messages: [],
-      // isOptionsShow: true,
-      // selected: false,
-      // canEdit: false,
-      // students: null,
-      // courses: null,
-      // course_id: null,
-      // year: null,
-      // semester: null,
-      // YEAR: null,
-      // SEMESTER: null,
       // fields: [
       //   {
       //     key: "id",
@@ -49,33 +36,28 @@ export default {
       //     sortDirection: "desc",
       //     class: "text-center"
       //   },
-        // {
-        //   key: "year",
-        //   label: "年度",
-        //   sortable: true
-        //   //   sortDirection: "desc",
-        //   //   class: "text-center",
-        //   //   formatter: (value /*, key, item*/) => {
-        //   //     return value
-        //   //       ? this.CharactorOptions[value].name
-        //   //       : this.CharactorOptions[0].name;
-        //   //   }
-        // },
-        // {
-        //   key: "score",
-        //   label: "分數",
-        //   sortable: true,
-        //   sortByFormatted: true,
-        //   filterByFormatted: true
-        // }
-        // { key: "actions", label: "操作" }
+      // {
+      //   key: "year",
+      //   label: "年度",
+      //   sortable: true
+      //   //   sortDirection: "desc",
+      //   //   class: "text-center",
+      //   //   formatter: (value /*, key, item*/) => {
+      //   //     return value
+      //   //       ? this.CharactorOptions[value].name
+      //   //       : this.CharactorOptions[0].name;
+      //   //   }
+      // },
+      // {
+      //   key: "score",
+      //   label: "分數",
+      //   sortable: true,
+      //   sortByFormatted: true,
+      //   filterByFormatted: true
+      // }
+      // { key: "actions", label: "操作" }
       // ]
     };
-  },
-  mounted() {
-    // this.getTeacherCourses(localStorage.getItem("user_id"));
-    // this.YEAR = "108";
-    // this.SEMESTER = 2;
   },
   components: {
     NavBar
