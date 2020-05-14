@@ -52,12 +52,12 @@ namespace GradeManageSystem.Controllers
         }
 
         // POST: api/students/grade/{courseId}/{year}/{semester}
-        [HttpPost("grade/{courseId}/{year}/{semester}")]
+        [HttpPost("grade/{courseId}")]
         public IActionResult UpdateCourseScoreTable(string courseId, int? year, int? semester, Dictionary<string, string> gradeList)
         {
             if (gradeList != null && courseId != null)
             {
-                _domainController.UpdateStudentsGrade(courseId, gradeList);
+                _domainController.UpdateCourseScoreTable(courseId, gradeList);
                 return NoContent();
             }
 
