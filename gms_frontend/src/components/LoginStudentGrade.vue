@@ -33,6 +33,11 @@
         </b-col>
       </b-row>
     </b-container>
+    <b-modal id="Alertmodal" ref="AlertModal" ok-only centered>
+      <b-alert class="left" show variant="danger">
+        <p v-for="(m, index) in messages" :key="index">{{ m }}</p>
+      </b-alert>
+    </b-modal>
   </div>
 </template>
 
