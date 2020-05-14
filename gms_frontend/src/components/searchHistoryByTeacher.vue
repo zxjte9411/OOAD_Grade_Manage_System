@@ -29,6 +29,7 @@
 <script>
 import NavBar from "@/components/NavBar";
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -37,9 +38,6 @@ export default {
   },
   mounted() {
     this.getTeacherCourses(localStorage.getItem("user_id"));
-  },
-  props: {
-    // courses
   },
   methods: {
     async getTeacherCourses(teacher_id = 12345) {
