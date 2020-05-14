@@ -2,9 +2,9 @@
   <div>
     <NavBar />
     <div>
-      <b-jumbotron class="mb-2" header="選擇你要的操作" lead>
-        <b-button class="mt-2 mx-2" variant="primary" @click="goSelectCourse">成績登入</b-button>
-        <b-button class="mt-2 mx-2" variant="primary" @click="goSearchHistory">歷史成績查詢</b-button>
+      <b-jumbotron class="" header="選擇你要的操作" lead>
+        <b-button class="mt-5 mx-2" variant="primary" @click="goSelectCourse">成績登入</b-button>
+        <b-button class="mt-5 mx-2" variant="primary" @click="goSearchHistory">歷史成績查詢</b-button>
       </b-jumbotron>
     </div>
   </div>

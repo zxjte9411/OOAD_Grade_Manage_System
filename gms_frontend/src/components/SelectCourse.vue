@@ -4,7 +4,7 @@
     <div>
       <b-jumbotron class="mb-2" header="選擇你要登錄的課程" lead></b-jumbotron>
     </div>
-    <b-container>
+    <b-container fluid class="mt-3">
       <b-row>
         <b-col>
           <b-card>
