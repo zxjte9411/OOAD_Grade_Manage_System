@@ -20,7 +20,7 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("987654321", "12345", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             accounts.Add(administrator);
             Department department = new Department("205", "CS", accounts, courses);
@@ -54,7 +54,7 @@ namespace GradeManageSystem.Models.Tests
             Student student2 = new Student("2", "123", 3, "4", userInformation, courseGrades2);
             Student student3 = new Student("3", "123", 3, "4", userInformation, courseGrades3);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(student1);
             accounts.Add(student2);
             accounts.Add(student3);
@@ -87,7 +87,7 @@ namespace GradeManageSystem.Models.Tests
             Student student3 = new Student("3", "123", 3, "4", userInformation, courseGrades3);
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(student1);
             accounts.Add(student2);
             accounts.Add(student3);
@@ -122,7 +122,7 @@ namespace GradeManageSystem.Models.Tests
             Student student3 = new Student("3", "123", 3, "4", userInformation, courseGrades3);
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(student1);
             accounts.Add(student2);
             accounts.Add(student3);
@@ -157,7 +157,7 @@ namespace GradeManageSystem.Models.Tests
             Student student3 = new Student("3", "123", 3, "4", userInformation, courseGrades3);
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(student1);
             accounts.Add(student2);
             accounts.Add(student3);
@@ -165,7 +165,7 @@ namespace GradeManageSystem.Models.Tests
 
             Department department = new Department("205", "CS", accounts, courses);
 
-            Assert.AreEqual(accounts[1], department.GetAccountById("2"));
+            Assert.AreEqual(accounts[1], department.GetAccount("2"));
         }
 
         [TestMethod()]
@@ -191,7 +191,7 @@ namespace GradeManageSystem.Models.Tests
             Student student3 = new Student("105205003", "123", 3, "4", userInformation, courseGrades3);
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(student1);
             accounts.Add(student2);
             accounts.Add(student3);

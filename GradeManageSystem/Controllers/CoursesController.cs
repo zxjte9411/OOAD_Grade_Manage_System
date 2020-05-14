@@ -1,7 +1,7 @@
 ﻿using GradeManageSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GradeManageSystem.Controller
+namespace GradeManageSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -15,11 +15,11 @@ namespace GradeManageSystem.Controller
 
         // GET: api/Courses/{teacher_id}
         [HttpGet("{teacherId}")]
-        public IActionResult GetTeacherAllCoursesLastSemester(string teacherId)
+        public IActionResult GetTeacherLastSemesterCourses(string teacherId)
         {
             if (teacherId != null)
             {
-                return Ok(_domainController.GetTeacherCoursesLastSemester(teacherId));
+                return Ok(_domainController.GetTeacherLastSemesterCourses(teacherId));
             }
 
             return NotFound();

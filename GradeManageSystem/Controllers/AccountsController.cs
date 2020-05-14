@@ -18,7 +18,7 @@ namespace GradeManageSystem.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetAccountsByDepartmentId(string id)
+        public IActionResult GetAccount(string id)
         {
             if (id != null)
             {
@@ -52,11 +52,11 @@ namespace GradeManageSystem.Controllers
         }
 
         [HttpPost("department/{departmentId}/{id}")]
-        public IActionResult UpdateAccountOfDepartment(string departmentId, string id, UserInformation userInformation)
+        public IActionResult UpdateAccountByDepartment(string departmentId, string id, UserInformation userInformation)
         {
             if (departmentId != null && id != null)
             {
-                _domainController.UpdateUserInformationOfDepartment(departmentId, id, userInformation);
+                _domainController.UpdateUserInformationByDepartment(departmentId, id, userInformation);
                 return Ok(_domainController.GetAccount(id));
             }
 

@@ -39,7 +39,7 @@ namespace GradeManageSystem.Controllers
             return NotFound("User not Exist or Pssword Error");   
         }
 
-        private bool ValidateUser(IAccount account)
+        private bool ValidateUser(Account account)
         {
             var login = _domainController.GetAccount(account.Id);
             if (login != null)

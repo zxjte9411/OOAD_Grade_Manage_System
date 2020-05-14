@@ -2,9 +2,8 @@
 
 namespace GradeManageSystem.Models
 {
-    public abstract class Account : IAccount
+    public abstract class Account
     {
-        //protected Account() { }
         protected Account(string id, string password, int authority, UserInformation userInformation)
         {
             Id = id;

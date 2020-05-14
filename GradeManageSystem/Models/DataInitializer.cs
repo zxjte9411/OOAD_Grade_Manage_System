@@ -10,7 +10,7 @@ namespace GradeManageSystem.Models
             Random random = new Random();
             List<UserInformation> userInformations = new List<UserInformation>();
             List<int> grades = new List<int>();
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             List<Course> courses = new List<Course>();
 
             userInformations.Add(new UserInformation("admin", "07-53535113", "Taiwan (ROC)", new DateTime(1999, 1, 1), "男"));
@@ -45,11 +45,12 @@ namespace GradeManageSystem.Models
             grades.Add(76);
             grades.Add(85);
             grades.Add(56);
+            grades.Add(0);
 
             // for student 1
             Dictionary<Course, int> CourseGrades0 = new Dictionary<Course, int>();
-            CourseGrades0.Add(courses[0], grades[1]);
-            CourseGrades0.Add(courses[1], grades[3]);
+            CourseGrades0.Add(courses[0], grades[10]);
+            CourseGrades0.Add(courses[1], grades[10]);
             CourseGrades0.Add(courses[2], grades[4]);
             CourseGrades0.Add(courses[3], grades[2]);
             CourseGrades0.Add(courses[4], grades[5]);
@@ -66,19 +67,19 @@ namespace GradeManageSystem.Models
             CourseGrades1.Add(courses[6], grades[8]);
             // for student 3
             Dictionary<Course, int> CourseGrades2 = new Dictionary<Course, int>();
-            CourseGrades2.Add(courses[7], grades[7]);
-            CourseGrades2.Add(courses[8], grades[6]);
+            CourseGrades2.Add(courses[7], grades[10]);
+            CourseGrades2.Add(courses[8], grades[10]);
             CourseGrades2.Add(courses[2], grades[4]);
-            CourseGrades2.Add(courses[9], grades[2]);
+            CourseGrades2.Add(courses[9], grades[10]);
             CourseGrades2.Add(courses[4], grades[3]);
             CourseGrades2.Add(courses[5], grades[4]);
             CourseGrades2.Add(courses[6], grades[9]);
             // for student 4
             Dictionary<Course, int> CourseGrades3 = new Dictionary<Course, int>();
-            CourseGrades3.Add(courses[7], grades[7]);
-            CourseGrades3.Add(courses[8], grades[9]);
-            CourseGrades3.Add(courses[9], grades[5]);
-            CourseGrades3.Add(courses[1], grades[4]);
+            CourseGrades3.Add(courses[7], grades[10]);
+            CourseGrades3.Add(courses[8], grades[10]);
+            CourseGrades3.Add(courses[9], grades[10]);
+            CourseGrades3.Add(courses[1], grades[10]);
             CourseGrades3.Add(courses[5], grades[5]);
             CourseGrades3.Add(courses[6], grades[3]);
             CourseGrades3.Add(courses[2], grades[8]);
@@ -87,10 +88,10 @@ namespace GradeManageSystem.Models
             CourseGrades4.Add(courses[3], grades[5]);
             CourseGrades4.Add(courses[6], grades[7]);
             CourseGrades4.Add(courses[4], grades[4]);
-            CourseGrades4.Add(courses[7], grades[1]);
-            CourseGrades4.Add(courses[8], grades[2]);
-            CourseGrades4.Add(courses[1], grades[6]);
-            CourseGrades4.Add(courses[9], grades[9]);
+            CourseGrades4.Add(courses[7], grades[10]);
+            CourseGrades4.Add(courses[8], grades[10]);
+            CourseGrades4.Add(courses[1], grades[10]);
+            CourseGrades4.Add(courses[9], grades[10]);
 
             accounts.Add(new Administrator("11111", "test", 0, userInformations[0]));
             accounts.Add(new AcadamicAffairs("30688", "test", 1, userInformations[1]));
@@ -104,7 +105,7 @@ namespace GradeManageSystem.Models
             accounts.Add(new Student("104570047", "test", 3, "4", userInformations[9], CourseGrades4));
 
             // Dep1
-            List<IAccount> tmp = accounts.GetRange(0, 3);
+            List<Account> tmp = accounts.GetRange(0, 3);
             tmp.Add(accounts[5]);
             Department department = new Department("590", "department1", tmp, courses.GetRange(0, 4));
             domainController.Departments.Add(department);

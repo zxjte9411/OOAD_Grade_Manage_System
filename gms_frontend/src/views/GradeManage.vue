@@ -4,9 +4,9 @@
     <div v-if="isOptionsShow">
       <b-jumbotron class="mb-2" header="選擇你要的操作" lead>
         <b-button class="mt-2 mx-2" variant="primary" @click="isOptionsShow=!isOptionsShow">成績登入</b-button>
-        <b-button class="mt-2 mx-2" variant="primary" @click="isOptionsShow=!isOptionsShow">成績登入</b-button>
-        <b-button class="mt-2 mx-2" variant="primary" @click="isOptionsShow=!isOptionsShow">成績登入</b-button>
-        <b-button class="mt-2 mx-2" variant="primary" @click="isOptionsShow=!isOptionsShow">成績登入</b-button>
+        <!-- <b-button class="mt-2 mx-2" variant="primary" >學期成績查詢</b-button> -->
+        <!-- <b-button class="mt-2 mx-2" variant="primary">歷史成績查詢</b-button> -->
+       <!--  <b-button class="mt-2 mx-2" variant="primary" @click="isOptionsShow=!isOptionsShow">成績登入</b-button> -->
       </b-jumbotron>
     </div>
     <div v-if="!isOptionsShow&&!selected">
@@ -21,7 +21,7 @@
             <!-- 成績表 -->
             <b-table show-empty small stacked="md" :items="students" :fields="fields">
               <template v-slot:cell(name)="row">{{ row.value }}</template>
-              <template v-slot:cell(grade)="row">{{ row.item.department_name }} {{ row.item.grade }}</template>
+              <template v-slot:cell(grade)="row">{{ row.item.department_name }}-{{ row.item.grade }}</template>
               <template v-slot:cell(score)="row">
                 <input
                   type="number"
@@ -30,11 +30,12 @@
                   v-model.number="row.item.score"
                   value="row.item.score"
                   :disabled="!canEdit"
+                  :style="row.item.textColor"
                 />
               </template>
             </b-table>
             <!-- 成績表 end -->
-            <b-button variant="success" @click="submit()" v-if="canEdit">送出</b-button>
+            <b-button variant="success" @click="checkScore()" v-if="canEdit">送出</b-button>
             <b-button variant="warning" @click="canEdit=!canEdit" v-if="!canEdit">編輯</b-button>
             <b-button
               variant="primary"
@@ -67,6 +68,11 @@
           </b-card>
         </b-col>
       </b-row>
+      <b-modal id="Alertmodal" ref="AlertModal" ok-only centered>
+        <b-alert class="left" show variant="danger">
+          <p v-for="(m, index) in messages" :key="index">{{ m }}</p>
+        </b-alert>
+      </b-modal>
     </b-container>
   </div>
 </template>
@@ -80,6 +86,7 @@ import Options from "@/components/Options";
 export default {
   data() {
     return {
+      messages: [],
       isOptionsShow: true,
       selected: false,
       canEdit: false,
@@ -105,7 +112,7 @@ export default {
         },
         {
           key: "grade",
-          label: "年級",
+          label: "班級",
           sortable: true,
           sortDirection: "desc",
           class: "text-center"
@@ -143,7 +150,38 @@ export default {
     Options
   },
   computed: {},
+  // watch: {
+  //   students: {
+  //     handler: function(val, oldVal) {
+  //       val.forEach(function(v, index) {
+  //         if (v.score < 0) {
+  //           val[index].textColor = "color:red";
+  //         } else {
+  //           val[index].textColor = "color:black";
+  //         }
+  //       });
+  //     },
+  //     deep: true
+  //   }
+  // },
   methods: {
+    checkScore() {
+      let isCanSubmit = true;
+      this.messages.length = 0;
+      const vm = this;
+      this.students.forEach(function(student) {
+        if (!/^\d{1,3}$/.test(student.score)) {
+          student["textColor"] = "color:red";
+          vm.messages.push(`學號：${student.id}，成績格式有誤`);
+          isCanSubmit = false;
+        }
+      });
+      if (isCanSubmit) {
+        this.submit();
+      } else {
+        this.$refs.AlertModal.show();
+      }
+    },
     async getStudentsData(course_id = "275689") {
       this.course_id = course_id;
       let response = await axios
@@ -162,6 +200,9 @@ export default {
           return await err.response;
         });
       this.students = response.data;
+      this.students.forEach(function(student) {
+        student["textColor"] = "";
+      });
     },
     async getTeacherCourses(teacher_id = "54321") {
       let response = await axios

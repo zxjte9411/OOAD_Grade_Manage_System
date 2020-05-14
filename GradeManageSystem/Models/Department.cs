@@ -5,7 +5,7 @@ namespace GradeManageSystem.Models
 {
     public class Department
     {
-        public Department(string id, string name, List<IAccount> accounts, List<Course> courses)
+        public Department(string id, string name, List<Account> accounts, List<Course> courses)
         {
             Id = id;
             Name = name;
@@ -14,40 +14,46 @@ namespace GradeManageSystem.Models
         }
         public string Id { get; set; }
         public string Name { get; set; }
-        public List<IAccount> Accounts { get; set; }
+        public List<Account> Accounts { get; set; }
         public List<Course> Courses { get; set; }
 
         public List<Student> GetStudentsOfCourse(string courseId, int? year, int? semester)
         {
             List<Student> students = new List<Student>();
+            Student student;
 
             foreach (var account in Accounts)
                 if (account.IsStudent())
-                    students.Add((Student)account);
+                {
+                    student = (Student)account;
+                    AddStudentsAgent(students, student, courseId, year, semester);
+                }
 
-            if (year != null && semester != null)
-                RemoveStudentsAgent(students, courseId, (int)year, (int)semester);
-            else
-                RemoveStudentsAgent(students, courseId);
 
             return students;
         }
 
-        private void RemoveStudentsAgent(List<Student> students, string courseId, int year, int semester)
+        private void AddStudentsAgent(List<Student> students, Student student, string courseId, int? year, int? semester)
         {
-            for (int i = students.Count - 1; i >= 0; i--)
-                if (!students[i].Courses.Any(course => course.Id == courseId && course.Year == year && course.Semester == semester))
-                    students.RemoveAt(i);
+            if (year != null && semester != null)
+                AddStudent(students, student, courseId, (int)year, (int)semester);
+            else
+                AddStudent(students, student, courseId);
         }
 
-        private void RemoveStudentsAgent(List<Student> students, string courseId)
+        private void AddStudent(List<Student> students, Student student, string courseId, int year, int semester)
         {
-            for (int i = students.Count - 1; i >= 0; i--)
-                if (!students[i].Courses.Any(course => course.Id == courseId))
-                    students.RemoveAt(i);
+            if (student.Courses.Any(course => course.Id == courseId && course.Year == year && course.Semester == semester))
+                students.Add(student);
         }
 
-        public List<IAccount> GetAccountsByAuthority(int authority)
+        private void AddStudent(List<Student> students, Student student, string courseId)
+        {
+            if (student.Courses.Any(course => course.Id == courseId))
+                students.Add(student);
+        }
+
+        public List<Account> GetAccountsByAuthority(int authority)
         {
             return Accounts.FindAll(account => account.Authority == authority);
         }
@@ -57,12 +63,12 @@ namespace GradeManageSystem.Models
             return Accounts.Any(account => account.Id == id);
         }
 
-        public IAccount GetAccountById(string id)
+        public Account GetAccount(string id)
         {
             return Accounts.Find(account => account.Id == id);
         }
 
-        private int GetMaxId(List<IAccount> accounts)
+        private int GetMaxId(List<Account> accounts)
         {
             int maxValue = int.MinValue;
             accounts.ForEach((account) =>
@@ -92,7 +98,7 @@ namespace GradeManageSystem.Models
             return student;
         }
 
-        public IAccount CreateAccount(AccountModel newAccount, int year)
+        public Account CreateAccount(AccountModel newAccount, int year)
         {
             if (newAccount.IsStudent())
             {

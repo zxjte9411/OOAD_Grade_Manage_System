@@ -29,7 +29,7 @@ namespace GradeManageSystem.Models.Tests
             Assert.AreEqual(3, student.Authority);
             Assert.AreEqual("1", student.Grade);
             Assert.AreEqual(info, student.UserInformation);
-            Assert.AreEqual(courseGrade[course.Id], student.CourseGrades[course.Id]);
+            Assert.AreEqual(courseGrade[course.Id], student.CourseScores[course.Id]);
             Assert.AreEqual(courses[0].Id, student.Courses[0].Id);
             Assert.AreEqual(courses[0].Name, student.Courses[0].Name);
         }
@@ -48,10 +48,10 @@ namespace GradeManageSystem.Models.Tests
             courseGrade.Add(course.Id, grade);
             Student student = new Student("102580039", "123456789", 3, "1", userInformation, courseGrades);
 
-            Assert.AreEqual(100, student.CourseGrades[course.Id]);
+            Assert.AreEqual(100, student.CourseScores[course.Id]);
 
             student.SetScore(course.Id, 0);
-            Assert.AreEqual(0, student.CourseGrades[course.Id]);
+            Assert.AreEqual(0, student.CourseScores[course.Id]);
         }
 
         [TestMethod()]
