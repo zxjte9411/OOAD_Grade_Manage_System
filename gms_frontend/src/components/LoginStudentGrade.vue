@@ -144,8 +144,11 @@ export default {
     }
   },
   created() {
-    console.log(this.course);
-    this.getGradeTable();
+    if (this.course === undefined) {
+      this.$router.push({ name: "GradeManage" });
+    } else {
+      this.getGradeTable();
+    }
   },
   components: {
     NavBar

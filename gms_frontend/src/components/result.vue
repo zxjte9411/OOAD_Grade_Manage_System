@@ -83,7 +83,11 @@ export default {
     }
   },
   created() {
-    this.getGradeTable();
+    if (this.course === undefined) {
+      this.$router.push({ name: "GradeManage" });
+    } else {
+      this.getGradeTable();
+    }
   },
   components: {
     NavBar
