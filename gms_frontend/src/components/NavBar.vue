@@ -8,7 +8,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="mr-auto">
-          <b-nav-item v-if="!isAdmin" href="#/modifyGrade">修改成績</b-nav-item>
+          <!-- <b-nav-item v-if="!isAdmin" href="#/modifyGrade">修改成績</b-nav-item> -->
           <!-- <b-nav-item href="#/modifyGrade">修改成績</b-nav-item> -->
           <b-nav-item v-if="isAdmin" href="#/accountmanagement">AccountManagement</b-nav-item>
           <!-- <b-nav-item href="#/report"></b-nav-item> -->
