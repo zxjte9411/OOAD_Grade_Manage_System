@@ -24,16 +24,16 @@ namespace GradeManageSystem.Models
 
         public Login Login { get; set; }
 
-        public IAccount GetAccount(string id)
+        public Account GetAccount(string id)
         {
             foreach (var department in Departments)
                 if (department.IsAccountExist(id))
-                    return department.GetAccountById(id);
+                    return department.GetAccount(id);
 
             return null;
         }
 
-        public List<Course> GetTeacherCourse(string id)
+        public List<Course> GetTeacherCourses(string id)
         {
             var account = (Teacher)GetAccount(id);
             return account.Courses;
@@ -44,7 +44,7 @@ namespace GradeManageSystem.Models
             return Departments.Find(department => department.Id == id);
         }
         
-        public Dictionary<string, string> GetTeacherCoursesLastSemester(string teacherId)
+        public Dictionary<string, string> GetTeacherLastSemesterCourses(string teacherId)
         {
             Teacher teacher = (Teacher)GetAccount(teacherId);
 
@@ -54,7 +54,7 @@ namespace GradeManageSystem.Models
             return null;
         }
 
-        public Dictionary<string, string> GetAllDepartmentsIdName()
+        public Dictionary<string, string> GetDepartmentsIdName()
         {
             Dictionary<string, string> departments = new Dictionary<string, string>();
 
@@ -65,37 +65,30 @@ namespace GradeManageSystem.Models
         }
 
         // course_id, course_name, score, year, semester
-        public List<Dictionary<string, string>> GetStudentAllGradeList(string id)
+        public List<Dictionary<string, string>> GetStudentHistoryScores(string id)
         {
-            List<Dictionary<string, string>> gradeList = new List<Dictionary<string, string>>();
-            Student student = new Student();
-
-            foreach (var department in Departments)
-                if (department.IsAccountExist(id))
-                {
-                    student = (Student)department.GetAccountById(id);
-                    break;
-                }
+            List<Dictionary<string, string>> scoreTable = new List<Dictionary<string, string>>();
+            Student student = (Student)GetAccount(id);
 
             foreach (var course in student.Courses)
             {
                 Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
                 keyValuePairs.Add("course_id", course.Id.ToString());
                 keyValuePairs.Add("course_name", course.Name.ToString());
-                keyValuePairs.Add("score", student.CourseGrades[course.Id].ToString());
+                keyValuePairs.Add("score", student.CourseScores[course.Id].ToString());
                 keyValuePairs.Add("year", course.Year.ToString());
                 keyValuePairs.Add("semester", course.Semester.ToString());
-                gradeList.Add(keyValuePairs);
+                scoreTable.Add(keyValuePairs);
             }
 
-            return gradeList;
+            return scoreTable;
         }
 
         // id, name, department_name, grade, score, year, semester
-        public List<Dictionary<string, string>> GetCourseGradeList(string courseId, int? year, int? semester)
+        public List<Dictionary<string, string>> GetScoreTableByCourse(string courseId, int? year, int? semester)
         {
             List<Dictionary<string, string>> courseGrades = new List<Dictionary<string, string>>();
-            List<Student> students = GetStudentsOfCourse(courseId, year, semester);
+            List<Student> students = GetStudentsByCourse(courseId, year, semester);
 
             foreach (var department in Departments)
                 foreach (var student in students)
@@ -107,7 +100,7 @@ namespace GradeManageSystem.Models
                         courseGrade.Add("name", student.UserInformation.Name.ToString());
                         courseGrade.Add("department_name", department.Name.ToString());
                         courseGrade.Add("grade", student.Grade.ToString());
-                        courseGrade.Add("score", student.CourseGrades[courseId].ToString());
+                        courseGrade.Add("score", student.CourseScores[courseId].ToString());
                         courseGrade.Add("year", (year ?? student.GetCourse(courseId).Year).ToString());
                         courseGrade.Add("semester", (semester ?? student.GetCourse(courseId).Semester).ToString());
                         courseGrades.Add(courseGrade);
@@ -117,7 +110,7 @@ namespace GradeManageSystem.Models
             return courseGrades;
         }
 
-        public List<Student> GetStudentsOfCourse(string courseId, int? year, int? semester)
+        public List<Student> GetStudentsByCourse(string courseId, int? year, int? semester)
         {
             List<Student> students = new List<Student>();
 
@@ -127,38 +120,34 @@ namespace GradeManageSystem.Models
             return students;
         }
 
-        public void UpdateStudentsGrade(string courseId, Dictionary<string, string> gradeList)
+        public void UpdateCourseScoreTable(string courseId, Dictionary<string, string> gradeList)
         {
-            List<Student> students = GetStudentsOfCourse(courseId, Year, Semester);
+            List<Student> students = GetStudentsByCourse(courseId, Year, Semester);
 
             foreach (var student in students)
                 student.SetScore(courseId, int.Parse(gradeList[student.Id]));
         }
 
-        public void UpdateUserInformationOfDepartment(string departmentId, string id, UserInformation userInformation)
+        public void UpdateUserInformationByDepartment(string departmentId, string id, UserInformation userInformation)
         {
             var department = GetDepartment(departmentId);
-            var account = department.GetAccountById(id);
+            var account = department.GetAccount(id);
             account.UserInformation = userInformation;
         }
 
-        public IAccount CreateAccount(AccountModel newAccount, string departmentId)
+        public Account CreateAccount(AccountModel newAccount, string departmentId)
         {
             var department = GetDepartment(departmentId.ToString());
 
             return department.CreateAccount(newAccount, Year);
         }
 
-        public Dictionary<string, string> SignIn(IAccount loginAccount, string token)
+        public Dictionary<string, string> SignIn(Account loginAccount, string token)
         {
-            if (loginAccount != null)
-            {
-                var account = (Account)GetAccount(loginAccount.Id);
-                if (account != null && Login.ValidateUser(loginAccount.Password, account.Password))
-                {
-                    return account.GetComposedAccountData(token);
-                }
-            }
+            var account = GetAccount(loginAccount.Id);
+            if (account != null && Login.ValidateUser(loginAccount.Password, account.Password))
+                return account.GetComposedAccountData(token);
+
             return null;
         }
     }

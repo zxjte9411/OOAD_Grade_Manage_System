@@ -30,7 +30,7 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("987654321", "12345", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             accounts.Add(administrator);
             Department department = new Department("205", "CS", accounts, courses);
@@ -68,7 +68,7 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);            
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             accounts.Add(administrator);
             accounts.Add(student1);
@@ -110,7 +110,7 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             accounts.Add(administrator);
             accounts.Add(student1);
@@ -122,8 +122,8 @@ namespace GradeManageSystem.Models.Tests
             DomainController domainController = new DomainController(departments, new Login());
 
             CollectionAssert.AreEqual(new Dictionary<string, string> { { "235463", "test2" } }
-            , domainController.GetTeacherCoursesLastSemester("123"));
-            Assert.AreEqual(null, domainController.GetTeacherCoursesLastSemester("4356"));
+            , domainController.GetTeacherLastSemesterCourses("123"));
+            Assert.AreEqual(null, domainController.GetTeacherLastSemesterCourses("4356"));
         }
 
         [TestMethod()]
@@ -153,7 +153,7 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             accounts.Add(administrator);
             accounts.Add(student1);
@@ -165,7 +165,7 @@ namespace GradeManageSystem.Models.Tests
             DomainController domainController = new DomainController(departments, new Login());
 
             CollectionAssert.AreEqual(new Dictionary<string, string> { { "205", "CS" } }
-            , domainController.GetAllDepartmentsIdName());
+            , domainController.GetDepartmentsIdName());
         }
 
         [TestMethod()]
@@ -195,7 +195,7 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             accounts.Add(administrator);
             accounts.Add(student1);
@@ -222,8 +222,8 @@ namespace GradeManageSystem.Models.Tests
             keyValuePairs.Add("semester", courses[4].Semester.ToString());
             gradeList.Add(keyValuePairs);
 
-            CollectionAssert.AreEqual(gradeList[0], domainController.GetStudentAllGradeList("3")[0]);
-            CollectionAssert.AreEqual(gradeList[1], domainController.GetStudentAllGradeList("3")[1]);
+            CollectionAssert.AreEqual(gradeList[0], domainController.GetStudentHistoryScores("3")[0]);
+            CollectionAssert.AreEqual(gradeList[1], domainController.GetStudentHistoryScores("3")[1]);
         }
 
         [TestMethod()]
@@ -253,7 +253,7 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             accounts.Add(administrator);
             accounts.Add(student1);
@@ -271,7 +271,7 @@ namespace GradeManageSystem.Models.Tests
             keyValuePairs.Add("name", student.UserInformation.Name.ToString());
             keyValuePairs.Add("department_name", department.Name.ToString());
             keyValuePairs.Add("grade", student.Grade.ToString());
-            keyValuePairs.Add("score", student.CourseGrades["312412"].ToString());
+            keyValuePairs.Add("score", student.CourseScores["312412"].ToString());
             keyValuePairs.Add("year", student.GetCourse("312412").Year.ToString());
             keyValuePairs.Add("semester", student.GetCourse("312412").Semester.ToString());
             gradeList.Add(keyValuePairs);
@@ -282,7 +282,7 @@ namespace GradeManageSystem.Models.Tests
             keyValuePairs.Add("name", student.UserInformation.Name.ToString());
             keyValuePairs.Add("department_name", department.Name.ToString());
             keyValuePairs.Add("grade", student.Grade.ToString());
-            keyValuePairs.Add("score", student.CourseGrades["312412"].ToString());
+            keyValuePairs.Add("score", student.CourseScores["312412"].ToString());
             keyValuePairs.Add("year", student.GetCourse("312412").Year.ToString());
             keyValuePairs.Add("semester", student.GetCourse("312412").Semester.ToString());
             gradeList.Add(keyValuePairs);
@@ -293,13 +293,13 @@ namespace GradeManageSystem.Models.Tests
             keyValuePairs.Add("name", student.UserInformation.Name.ToString());
             keyValuePairs.Add("department_name", department.Name.ToString());
             keyValuePairs.Add("grade", student.Grade.ToString());
-            keyValuePairs.Add("score", student.CourseGrades["312412"].ToString());
+            keyValuePairs.Add("score", student.CourseScores["312412"].ToString());
             keyValuePairs.Add("year", student.GetCourse("312412").Year.ToString());
             keyValuePairs.Add("semester", student.GetCourse("312412").Semester.ToString());
             gradeList.Add(keyValuePairs);
 
-            CollectionAssert.AreEqual(gradeList[0], domainController.GetCourseGradeList("312412", null, null)[0]);
-            CollectionAssert.AreEqual(gradeList[2], domainController.GetCourseGradeList("312412", 107, 1)[0]);
+            CollectionAssert.AreEqual(gradeList[0], domainController.GetScoreTableByCourse("312412", null, null)[0]);
+            CollectionAssert.AreEqual(gradeList[2], domainController.GetScoreTableByCourse("312412", 107, 1)[0]);
         }
 
         [TestMethod()]
@@ -328,7 +328,7 @@ namespace GradeManageSystem.Models.Tests
             Student student2 = new Student("2", "123", 3, "4", userInformation, courseGrades2);
             Student student3 = new Student("3", "123", 3, "4", userInformation, courseGrades3);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(student1);
             accounts.Add(student2);
             accounts.Add(student3);
@@ -341,10 +341,10 @@ namespace GradeManageSystem.Models.Tests
             students.Add("2", "0");
             students.Add("3", "0");
 
-            domainController.UpdateStudentsGrade("235463", students);
+            domainController.UpdateCourseScoreTable("235463", students);
 
-            Assert.AreEqual(0, student2.CourseGrades["235463"]);
-            Assert.AreEqual(0, student3.CourseGrades["235463"]);
+            Assert.AreEqual(0, student2.CourseScores["235463"]);
+            Assert.AreEqual(0, student3.CourseScores["235463"]);
         }
 
         [TestMethod()]
@@ -375,7 +375,7 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             accounts.Add(administrator);
             accounts.Add(student1);
@@ -410,14 +410,14 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             Department department = new Department("205", "CS", accounts, courses);
             departments.Add(department);
 
             DomainController domainController = new DomainController(departments, new Login());
 
-            CollectionAssert.AreEqual(courses, domainController.GetTeacherCourse("123"));
+            CollectionAssert.AreEqual(courses, domainController.GetTeacherCourses("123"));
         }
 
         [TestMethod()]
@@ -430,7 +430,7 @@ namespace GradeManageSystem.Models.Tests
             Teacher teacher = new Teacher("123", "wer", 2, userInformation, courses);
             Administrator administrator = new Administrator("2313", "1111", 1, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             Department department = new Department("205", "CS", accounts, courses);
             departments.Add(department);
@@ -438,7 +438,7 @@ namespace GradeManageSystem.Models.Tests
             DomainController domainController = new DomainController(departments, new Login());
 
             Assert.AreEqual(userInformation, domainController.GetAccount("123").UserInformation);
-            domainController.UpdateUserInformationOfDepartment("205", "123", userInformation2);
+            domainController.UpdateUserInformationByDepartment("205", "123", userInformation2);
             Assert.AreEqual(userInformation2, domainController.GetAccount("123").UserInformation);
         }
 
@@ -452,7 +452,7 @@ namespace GradeManageSystem.Models.Tests
             Administrator administrator = new Administrator("2313", "1111", 0, userInformation);
             Administrator test = new Administrator("sdf", "1111", 0, userInformation);
 
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             accounts.Add(teacher);
             accounts.Add(administrator);
             Department department = new Department("205", "CS", accounts, courses);
@@ -466,7 +466,6 @@ namespace GradeManageSystem.Models.Tests
                 { "token", "wer" }
             };
 
-            Assert.AreEqual(null, domainController.SignIn(null, "aaa"));
             CollectionAssert.AreEqual(keyValuePairs, domainController.SignIn(teacher, "wer"));
             Assert.AreEqual(null, domainController.SignIn(test, "aaa"));
         }

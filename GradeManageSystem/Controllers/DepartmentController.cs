@@ -18,7 +18,7 @@ namespace GradeManageSystem.Controllers
         [HttpGet]
         public IActionResult GetAllDepartments()
         {
-            return Ok(_domainController.GetAllDepartmentsIdName());
+            return Ok(_domainController.GetDepartmentsIdName());
         }
     }
 }

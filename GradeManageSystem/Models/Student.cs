@@ -13,21 +13,21 @@ namespace GradeManageSystem.Models
         {
             UserInformation = userInformation;
             Courses = new List<Course>();
-            CourseGrades = new Dictionary<string, int>();
+            CourseScores = new Dictionary<string, int>();
             Grade = grade;
             if (courseGrade != null)
             {
                 foreach (var course in courseGrade.Keys)
                 {
                     Courses.Add(course);
-                    CourseGrades.Add(course.Id, courseGrade[course]);
+                    CourseScores.Add(course.Id, courseGrade[course]);
                 }
             }
         }
 
         public string Grade { get; set; }
         public List<Course> Courses { get; set; }
-        public Dictionary<string, int> CourseGrades { get; set; }
+        public Dictionary<string, int> CourseScores { get; set; }
         public override bool IsStudent()
         {
             return true;
@@ -40,7 +40,7 @@ namespace GradeManageSystem.Models
 
         public void SetScore(string id, int score)
         {
-            CourseGrades[id] = score;
+            CourseScores[id] = score;
         }
     }
 }

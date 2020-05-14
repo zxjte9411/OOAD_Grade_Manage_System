@@ -10,7 +10,7 @@ namespace GradeManageSystem.Models
             Random random = new Random();
             List<UserInformation> userInformations = new List<UserInformation>();
             List<int> grades = new List<int>();
-            List<IAccount> accounts = new List<IAccount>();
+            List<Account> accounts = new List<Account>();
             List<Course> courses = new List<Course>();
 
             userInformations.Add(new UserInformation("admin", "07-53535113", "Taiwan (ROC)", new DateTime(1999, 1, 1), "男"));
@@ -105,7 +105,7 @@ namespace GradeManageSystem.Models
             accounts.Add(new Student("104570047", "test", 3, "4", userInformations[9], CourseGrades4));
 
             // Dep1
-            List<IAccount> tmp = accounts.GetRange(0, 3);
+            List<Account> tmp = accounts.GetRange(0, 3);
             tmp.Add(accounts[5]);
             Department department = new Department("590", "department1", tmp, courses.GetRange(0, 4));
             domainController.Departments.Add(department);

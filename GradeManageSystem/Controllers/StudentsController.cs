@@ -17,11 +17,11 @@ namespace GradeManageSystem.Controllers
 
         // GET: api/students/course/{courseId}
         [HttpGet("course/{courseId}")]
-        public IActionResult GetCourseAllGradeList(string courseId)
+        public IActionResult GetScoreTable(string courseId)
         {
             if (courseId != null)
             {
-                return Ok(_domainController.GetCourseGradeList(courseId, null, null));
+                return Ok(_domainController.GetScoreTableByCourse(courseId, null, null));
             }
 
             return NotFound();
@@ -29,11 +29,11 @@ namespace GradeManageSystem.Controllers
 
         // GET: api/students/course/{courseId}/{year}/{semester}
         [HttpGet("course/{courseId}/{year}/{semester}")]
-        public IActionResult GetCourseGradeListSemester(string courseId, int? year, int? semester)
+        public IActionResult GetScoreTableLastSemester(string courseId, int? year, int? semester)
         {
             if (courseId != null && year != null && semester != null)
             {
-                return Ok(_domainController.GetCourseGradeList(courseId, year, semester));
+                return Ok(_domainController.GetScoreTableByCourse(courseId, year, semester));
             }
 
             return NotFound();
@@ -41,11 +41,11 @@ namespace GradeManageSystem.Controllers
 
         // GET: api/students/history/{id}
         [HttpGet("history/{id}")]
-        public IActionResult GetStudentAllGradeList(string id)
+        public IActionResult GetStudentHistoryScores(string id)
         {
             if (id != null)
             {
-                return Ok(_domainController.GetStudentAllGradeList(id));
+                return Ok(_domainController.GetStudentHistoryScores(id));
             }
 
             return NotFound();
@@ -53,7 +53,7 @@ namespace GradeManageSystem.Controllers
 
         // POST: api/students/grade/{courseId}/{year}/{semester}
         [HttpPost("grade/{courseId}/{year}/{semester}")]
-        public IActionResult UpdateStudentsGrade(string courseId, int? year, int? semester, Dictionary<string, string> gradeList)
+        public IActionResult UpdateCourseScoreTable(string courseId, int? year, int? semester, Dictionary<string, string> gradeList)
         {
             if (gradeList != null && courseId != null)
             {
