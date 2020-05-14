@@ -141,7 +141,7 @@ export default {
     };
   },
   mounted() {
-    this.getTeacherCourses();
+    this.getTeacherCourses(localStorage.getItem("user_id"));
     this.YEAR = "108";
     this.SEMESTER = 2;
   },
