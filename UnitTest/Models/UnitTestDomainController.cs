@@ -340,11 +340,6 @@ namespace GradeManageSystem.Models.Tests
             Dictionary<string, string> students = new Dictionary<string, string>();
             students.Add("2", "0");
             students.Add("3", "0");
-            try
-            {
-                students.Add("3", "dagd");
-            }
-            catch { }
 
             domainController.UpdateStudentsGrade("235463", students);
 
