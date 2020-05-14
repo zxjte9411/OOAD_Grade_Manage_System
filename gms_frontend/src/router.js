@@ -27,5 +27,15 @@ export default new Router({
     name: 'Login',
     component: () => import('./views/Login.vue')
   },
+  {
+    path: '/grademanage/searchgrade',
+    name: 'searchHistoryByTeacher',
+    component: () => import('./components/searchHistoryByTeacher.vue')
+  },
+  {
+    path: '/grademanage/searchgrade/result',
+    name: 'result',
+    component: () => import('./components/result.vue')
+  },
   ]
 })
