@@ -58,8 +58,8 @@ namespace GradeManageSystem.Models
             CourseGrades0.Add(courses[6], grades[6]);
             // for student 2
             Dictionary<Course, int> CourseGrades1 = new Dictionary<Course, int>();
-            CourseGrades1.Add(courses[0], grades[2]);
-            CourseGrades1.Add(courses[1], grades[4]);
+            CourseGrades1.Add(courses[0], grades[10]);
+            CourseGrades1.Add(courses[1], grades[10]);
             CourseGrades1.Add(courses[2], grades[5]);
             CourseGrades1.Add(courses[3], grades[6]);
             CourseGrades1.Add(courses[4], grades[1]);
