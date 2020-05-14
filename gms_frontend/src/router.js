@@ -37,5 +37,15 @@ export default new Router({
     name: 'result',
     component: () => import('./components/result.vue')
   },
+  {
+    path: '/grademanage/course',
+    name: 'SelectCourse',
+    component: () => import('./components/SelectCourse.vue')
+  },
+  {
+    path: '/grademanage/course/logingrade',
+    name: 'LoginGrade',
+    component: () => import('./components/LoginStudentGrade.vue')
+  },
   ]
 })
