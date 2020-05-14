@@ -165,6 +165,9 @@ export default {
   //   }
   // },
   methods: {
+    goSearchHistory(){
+      this.$router.push("/grademanage/searchgrade")
+    },
     checkScore() {
       let isCanSubmit = true;
       this.messages.length = 0;
