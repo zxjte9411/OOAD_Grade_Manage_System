@@ -60,8 +60,8 @@ namespace GradeManageSystem.Models.Tests
             accounts.Add(student3);
             Department department = new Department("205", "CS", accounts, courses);
 
-            CollectionAssert.AreEqual(accounts.GetRange(0, 1), department.GetStudentsOfCourse("222222", null, null));
-            CollectionAssert.AreEqual(accounts.GetRange(0, 2), department.GetStudentsOfCourse("312412", 108, 1));
+            CollectionAssert.AreEqual(accounts.GetRange(0, 1), department.GetStudentsByCourse("222222", null, null));
+            CollectionAssert.AreEqual(accounts.GetRange(0, 2), department.GetStudentsByCourse("312412", 108, 1));
         }
 
         [TestMethod()]
