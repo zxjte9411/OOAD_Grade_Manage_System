@@ -57,7 +57,7 @@ namespace GradeManageSystem.Controllers
         {
             if (gradeList != null && courseId != null)
             {
-                _domainController.UpdateStudentsGrade(courseId, gradeList);
+                _domainController.UpdateCourseScoreTable(courseId, gradeList);
                 return NoContent();
             }
 
