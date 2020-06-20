@@ -69,22 +69,22 @@ namespace GradeManageSystem.Models
             return Accounts.Find(account => account.Id == id);
         }
 
-        private int GetMaxId(List<Account> accounts)
+        private bool CompareIdValue(int id)
         {
-            int maxValue = int.MinValue;
+            return int.MinValue < id;
+        }
+
+        private int GetMaxId(List<Account> accounts, int year)
+        {
+            int maxValue = 0;
             accounts.ForEach((account) =>
             {
-                if (account.IsStudent())
+                if (account.Id.Substring(0, year.ToString().Length) == year.ToString())
                 {
-                    if (maxValue < int.Parse(account.Id.Substring(6, 3)))
-                        maxValue = int.Parse(account.Id.Substring(6, 3));
+                    int id = int.Parse(account.Id.Substring(6, 3));
+                    if (CompareIdValue(id))
+                        maxValue = id;
                 }
-                //else if (account.IsTeacher())
-                //{/*TODO*/}
-                //else if (account.IsAcadamicAffair())
-                //{/*TODO*/}
-                //else if (account.IsAdmin())
-                //{/*TODO*/}
             });
 
             return maxValue;
@@ -93,7 +93,7 @@ namespace GradeManageSystem.Models
         private Student CreateStudent(AccountModel newAccount, int year)
         {
             Student student = new Student(year + Id.PadLeft(3, '0'), "", 3, "1", newAccount.UserInformation, null); // 依照帳號身分建立對應的帳號
-            student.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            student.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority), year) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
             student.Password = student.Id; // 密碼預設為帳號 ID
             Accounts.Add(student);
             return student;
@@ -102,7 +102,7 @@ namespace GradeManageSystem.Models
         private Account CreateAdmin(AccountModel newAccount, int year)
         {
             Administrator administrator = new Administrator(year + Id.PadLeft(3, '0'), "", 3, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
-            administrator.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            administrator.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority), year) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
             administrator.Password = administrator.Id; // 密碼預設為帳號 ID
             Accounts.Add(administrator);
             return administrator;
@@ -111,7 +111,7 @@ namespace GradeManageSystem.Models
         private Account CreateAcadamicAffair(AccountModel newAccount, int year)
         {
             AcadamicAffairs acadamicAffair = new AcadamicAffairs(year + Id.PadLeft(3, '0'), "", 3, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
-            acadamicAffair.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            acadamicAffair.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority), year) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
             acadamicAffair.Password = acadamicAffair.Id; // 密碼預設為帳號 ID
             Accounts.Add(acadamicAffair);
             return acadamicAffair;
@@ -120,7 +120,7 @@ namespace GradeManageSystem.Models
         private Account CreateTeacher(AccountModel newAccount, int year)
         {
             Administrator administrator = new Administrator(year + Id.PadLeft(3, '0'), "", 3, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
-            administrator.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            administrator.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority), year) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
             administrator.Password = administrator.Id; // 密碼預設為帳號 ID
             Accounts.Add(administrator);
             return administrator;
