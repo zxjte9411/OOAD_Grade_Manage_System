@@ -24,10 +24,5 @@ namespace GradeManageSystem.Models
 
             return courses;
         }
-
-        public override bool IsTeacher()
-        {
-            return true;
-        }
     }
 }

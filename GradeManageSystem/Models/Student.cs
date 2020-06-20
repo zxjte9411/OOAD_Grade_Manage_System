@@ -28,10 +28,6 @@ namespace GradeManageSystem.Models
         public string Grade { get; set; }
         public List<Course> Courses { get; set; }
         public Dictionary<string, int> CourseScores { get; set; }
-        public override bool IsStudent()
-        {
-            return true;
-        }
 
         public Course GetCourse(string id)
         {
