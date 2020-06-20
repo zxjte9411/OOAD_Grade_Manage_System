@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GradeManageSystem.Models
@@ -91,11 +92,38 @@ namespace GradeManageSystem.Models
 
         private Student CreateStudent(AccountModel newAccount, int year)
         {
-            Student student = new Student(year + Id.PadLeft(3, '0'), "", 3, "1", newAccount.UserInformation, null);
-            student.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0');
-            student.Password = student.Id;
+            Student student = new Student(year + Id.PadLeft(3, '0'), "", 3, "1", newAccount.UserInformation, null); // 依照帳號身分建立對應的帳號
+            student.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            student.Password = student.Id; // 密碼預設為帳號 ID
             Accounts.Add(student);
             return student;
+        }
+
+        private Account CreateAdmin(AccountModel newAccount, int year)
+        {
+            Administrator administrator = new Administrator(year + Id.PadLeft(3, '0'), "", 3, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
+            administrator.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            administrator.Password = administrator.Id; // 密碼預設為帳號 ID
+            Accounts.Add(administrator);
+            return administrator;
+        }
+
+        private Account CreateAcadamicAffair(AccountModel newAccount, int year)
+        {
+            AcadamicAffairs acadamicAffair = new AcadamicAffairs(year + Id.PadLeft(3, '0'), "", 3, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
+            acadamicAffair.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            acadamicAffair.Password = acadamicAffair.Id; // 密碼預設為帳號 ID
+            Accounts.Add(acadamicAffair);
+            return acadamicAffair;
+        }
+
+        private Account CreateTeacher(AccountModel newAccount, int year)
+        {
+            Administrator administrator = new Administrator(year + Id.PadLeft(3, '0'), "", 3, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
+            administrator.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority)) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            administrator.Password = administrator.Id; // 密碼預設為帳號 ID
+            Accounts.Add(administrator);
+            return administrator;
         }
 
         public Account CreateAccount(AccountModel newAccount, int year)
@@ -104,12 +132,18 @@ namespace GradeManageSystem.Models
             {
                 return CreateStudent(newAccount, year);
             }
-            //else if (newAccount.IsTeacher())
-            //{/*TODO*/}
-            //else if (newAccount.IsAcadamicAffair())
-            //{/*TODO*/}
-            //else if (newAccount.IsAdmin())
-            //{/*TODO*/}
+            else if (newAccount.IsTeacher())
+            { 
+                return CreateTeacher(newAccount, year); 
+            }
+            else if (newAccount.IsAcadamicAffair())
+            { 
+                return CreateAcadamicAffair(newAccount, year); 
+            }
+            else if (newAccount.IsAdmin())
+            { 
+                return CreateAdmin(newAccount, year); 
+            }
 
             return null;
         }
