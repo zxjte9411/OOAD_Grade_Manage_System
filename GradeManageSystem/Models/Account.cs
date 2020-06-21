@@ -1,9 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace GradeManageSystem.Models
 {
     public abstract class Account
     {
+        enum AuthorityEnum
+        {
+            Administrator,
+            AcadamicAffairs,
+            Teacher,
+            Student
+        }
         protected Account(string id, string password, int authority, UserInformation userInformation)
         {
             Id = id;
@@ -18,22 +25,22 @@ namespace GradeManageSystem.Models
 
         public virtual bool IsAcadamicAffair() 
         {
-            return false;
+            return Authority == (int)AuthorityEnum.AcadamicAffairs;
         }
 
         public virtual bool IsAdmin()
         {
-            return false;
+            return Authority == (int)AuthorityEnum.Administrator;
         }
 
         public virtual bool IsStudent()
         {
-            return false;
+            return Authority == (int)AuthorityEnum.Student;
         }
 
         public virtual bool IsTeacher()
         {
-            return false;
+            return Authority == (int)AuthorityEnum.Teacher;
         }
 
         public virtual Dictionary<string, string> GetComposedAccountData(string token) => 
