@@ -93,12 +93,12 @@ namespace GradeManageSystem.Models
             CourseGrades4.Add(courses[1], grades[10]);
             CourseGrades4.Add(courses[9], grades[10]);
 
-            accounts.Add(new Administrator("admin", "test", 0, userInformations[0]));
-            accounts.Add(new AcadamicAffairs("academicaffair", "test", 1, userInformations[1]));
-            accounts.Add(new Teacher("teacher", "test", 2, userInformations[2], courses.GetRange(0, 4)));
+            accounts.Add(new Administrator("000000", "test", 0, userInformations[0]));
+            accounts.Add(new AcadamicAffairs("111111", "test", 1, userInformations[1]));
+            accounts.Add(new Teacher("222222", "test", 2, userInformations[2], courses.GetRange(0, 4)));
             accounts.Add(new Teacher("24689", "test", 2, userInformations[3], courses.GetRange(4, 4)));
             accounts.Add(new Teacher("54321", "test", 2, userInformations[4], courses.GetRange(6, 4)));
-            accounts.Add(new Student("student", "test", 3, "2", userInformations[5], CourseGrades0));
+            accounts.Add(new Student("105590021", "test", 3, "2", userInformations[5], CourseGrades0));
             accounts.Add(new Student("106580023", "test", 3, "2", userInformations[6], CourseGrades1));
             accounts.Add(new Student("105580047", "test", 3, "3", userInformations[7], CourseGrades2));
             accounts.Add(new Student("107570047", "test", 3, "1", userInformations[8], CourseGrades3));
