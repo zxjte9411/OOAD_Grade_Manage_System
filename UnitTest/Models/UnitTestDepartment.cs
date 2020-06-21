@@ -21,14 +21,13 @@ namespace GradeManageSystem.Models.Tests
         Administrator administrator;
         List<Account> accounts;
         Department department;
-        AccountModel accountModel;
 
 
         [TestInitialize]
         public void TestInitialize()
         {
             userInformation = new UserInformation("test", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
-            administrator = new Administrator("2313", "1111", 1, userInformation);
+            administrator = new Administrator("2313", "1111", 0, userInformation);
             courses = new List<Course>();
             courses.Add(new Course("123456", "math", 106, 2));
             courses.Add(new Course("222222", "English", 105, 1));
@@ -59,9 +58,6 @@ namespace GradeManageSystem.Models.Tests
             accounts.Add(administrator);
 
             department = new Department("205", "CS", accounts, courses);
-            accountModel = new AccountModel("123", "321", 3, userInformation);
-
-            department.CreateAccount(accountModel, 108);
         }
 
         [TestMethod()]
@@ -84,16 +80,14 @@ namespace GradeManageSystem.Models.Tests
         [TestMethod()]
         public void TestGetAccountByAuthority()
         {
-            List<Account> testAccounts = accounts.GetRange(0, 3);
-            testAccounts.Add(accounts[5]);
-            CollectionAssert.AreEqual(testAccounts, department.GetAccountsByAuthority(3));
+            CollectionAssert.AreEqual(accounts.GetRange(0, 3), department.GetAccountsByAuthority(3));
             CollectionAssert.AreEqual(accounts.GetRange(3, 1), department.GetAccountsByAuthority(2));
         }
 
         [TestMethod()]
         public void TestIsAccountExist()
         {
-            Assert.IsTrue(department.IsAccountExist("108205001"));
+            Assert.IsTrue(department.IsAccountExist("105205002"));
             Assert.IsFalse(department.IsAccountExist("adfgd"));
         }
 
@@ -106,11 +100,41 @@ namespace GradeManageSystem.Models.Tests
         [TestMethod()]
         public void TestCreateAccount()
         {
+            // create student
+            AccountModel accountModel = new AccountModel("123", "321", 3, userInformation);
+            department.CreateAccount(accountModel, 108);
+
             Assert.AreEqual(6, department.Accounts.Count);
             Assert.AreEqual("108205001", department.Accounts[5].Id);
             Assert.AreEqual("108205001", department.Accounts[5].Password);
             Assert.AreEqual(3, department.Accounts[5].Authority);
             Assert.AreEqual(userInformation, department.Accounts[5].UserInformation);
+            // create admin
+            accountModel = new AccountModel("123", "321", 0, userInformation);
+            department.CreateAccount(accountModel, 108);
+
+            Assert.AreEqual(7, department.Accounts.Count);
+            Assert.AreEqual(0, department.Accounts[6].Authority);
+            Assert.AreEqual(userInformation, department.Accounts[6].UserInformation);
+            // create teacher
+            accountModel = new AccountModel("123", "321", 2, userInformation);
+            department.CreateAccount(accountModel, 108);
+
+            Assert.AreEqual(8, department.Accounts.Count);
+            Assert.AreEqual(2, department.Accounts[7].Authority);
+            Assert.AreEqual(userInformation, department.Accounts[7].UserInformation);
+            // create academic affairs
+            accountModel = new AccountModel("123", "321", 1, userInformation);
+            department.CreateAccount(accountModel, 108);
+
+            Assert.AreEqual(9, department.Accounts.Count);
+            Assert.AreEqual(1, department.Accounts[8].Authority);
+            Assert.AreEqual(userInformation, department.Accounts[8].UserInformation);
+            // null
+            accountModel = new AccountModel();
+
+            Assert.AreEqual(null, department.CreateAccount(accountModel, 108));
+            Assert.AreEqual(9, department.Accounts.Count);
         }
     }
 }

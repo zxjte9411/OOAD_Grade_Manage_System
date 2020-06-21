@@ -54,7 +54,7 @@ namespace GradeManageSystem.Models.Tests
             student2 = new Student("106680015", "123", 3, "4", userInformation, courseGrades2);
             student3 = new Student("108205001", "123", 3, "4", userInformation, courseGrades3);
             teacher = new Teacher("556888", "wer", 2, userInformation, courses);
-            administrator = new Administrator("000000", "1111", 1, userInformation);
+            administrator = new Administrator("000000", "1111", 0, userInformation);
 
             accounts = new List<Account>();
             accounts.Add(student1);
