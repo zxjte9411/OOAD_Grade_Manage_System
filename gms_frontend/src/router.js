@@ -34,7 +34,7 @@ export default new Router({
   },
   {
     path: '/grademanage/searchgrade/result',
-    name: 'result',
+    name: 'resultOfSearchgrade',
     component: () => import('./components/result.vue')
   },
   {
@@ -46,6 +46,27 @@ export default new Router({
     path: '/grademanage/course/logingrade',
     name: 'LoginGrade',
     component: () => import('./components/LoginStudentGrade.vue')
+  },
+  {
+    path: '/accountmanage/selectdepartment',
+    name: 'selectdepartment',
+    component: () => import('./components/accountManage/SelectDepartment.vue')
+  },
+  {
+    path: '/accountmanage/createAccount/result',
+    name: 'resultOfCreateAccount',
+    component: () => import('./components/accountManage/result.vue')
+  },
+  {
+    path: '/accountmanage/createAccount',
+    name: 'createAccount',
+    component: () => import('./components/accountManage/Register.vue')
+  },
+  
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('./views/IssuePage.vue')
   },
   ]
 })

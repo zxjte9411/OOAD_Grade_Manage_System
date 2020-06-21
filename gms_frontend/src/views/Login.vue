@@ -108,7 +108,7 @@ export default {
         this.$router.push("/accountmanage");
       }
       if (authority === "1") {
-        this.$router.push("/");
+        this.$router.push("/accountmanage");
       }
       if (authority === "2") {
         this.$router.push("/grademanage");

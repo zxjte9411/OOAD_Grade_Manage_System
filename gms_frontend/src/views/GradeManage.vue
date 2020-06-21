@@ -84,9 +84,6 @@ export default {
     goSelectCourse() {
       this.$router.push("/grademanage/course");
     },
-    print(p) {
-      console.log(p);
-    }
   }
 };
 </script>
