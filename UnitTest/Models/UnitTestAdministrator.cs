@@ -20,41 +20,5 @@ namespace GradeManageSystem.Models.Tests
             Assert.AreEqual(1, administrator.Authority);
             Assert.AreEqual(info, administrator.UserInformation);
         }
-
-        [TestMethod()]
-        public void TestIsStudent()
-        {
-            UserInformation userInformation = new UserInformation("BBB", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
-            Administrator account = new Administrator("AAA", "123", 0, userInformation);
-
-            Assert.IsFalse(account.IsStudent());
-        }
-
-        [TestMethod()]
-        public void TestIsTeacher()
-        {
-            UserInformation userInformation = new UserInformation("BBB", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
-            Administrator account = new Administrator("AAA", "123", 0, userInformation);
-
-            Assert.IsFalse(account.IsTeacher());
-        }
-
-        [TestMethod()]
-        public void TestIsAdmin()
-        {
-            UserInformation userInformation = new UserInformation("BBB", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
-            Administrator account = new Administrator("AAA", "123", 0, userInformation);
-
-            Assert.IsTrue(account.IsAdmin());
-        }
-
-        [TestMethod()]
-        public void TestIsAcadamicAffair()
-        {
-            UserInformation userInformation = new UserInformation("BBB", "0912345678", "AAAA", new DateTime(2000, 7, 15), "男");
-            Administrator account = new Administrator("AAA", "123", 0, userInformation);
-
-            Assert.IsFalse(account.IsAcadamicAffair());
-        }
     }
 }
