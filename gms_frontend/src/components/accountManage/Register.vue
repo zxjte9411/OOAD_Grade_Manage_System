@@ -46,6 +46,8 @@
             </b-card>
         </b-container>
         <b-button variant="secondary" @click="submit">送出</b-button>
+        <b-button variant="primary" @click="goBack" class="mx-4">返回</b-button>
+
     </div>
 </template>
 
@@ -108,6 +110,9 @@
                     localStorage.clear();
                     this.$router.push("/login");
                 }
+            },
+            goBack(){
+                this.$router.push({ name: "selectdepartment", params: {operation: this.$route.params.operation, department: this.department} });
             },
         },
         created() {}

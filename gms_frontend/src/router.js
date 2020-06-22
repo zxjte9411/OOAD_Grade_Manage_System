@@ -53,14 +53,19 @@ export default new Router({
     component: () => import('./components/accountManage/SelectDepartment.vue')
   },
   {
-    path: '/accountmanage/createAccount/result',
-    name: 'resultOfCreateAccount',
-    component: () => import('./components/accountManage/result.vue')
-  },
-  {
     path: '/accountmanage/createAccount',
     name: 'createAccount',
     component: () => import('./components/accountManage/Register.vue')
+  },
+  {
+    path: '/accountmanage/searchAccount',
+    name: 'searchAccount',
+    component: () => import('./components/accountManage/searchAccount.vue')
+  },
+  {
+    path: '/accountmanage/createAccount/result',
+    name: 'resultOfCreateAccount',
+    component: () => import('./components/accountManage/result.vue')
   },
   
   {

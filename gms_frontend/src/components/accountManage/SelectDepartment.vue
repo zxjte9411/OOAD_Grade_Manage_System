@@ -32,6 +32,7 @@ import Register from "@/components/accountManage/Register.vue";
 export default {
   data() {
     return {
+      operation: this.$route.params.operation,
       departments: []
     };
   },
@@ -68,7 +69,12 @@ export default {
       }
     },
     selectDepartment(department){
-      this.$router.push({ name: "createAccount", params: { department: department } });
+      if (this.operation === 0) // 建立帳號
+        this.$router.push({ name: "createAccount", params: { department: department, operation: this.operation } });
+      else if (this.operation === 1) // 查詢帳號
+        this.$router.push({ name: "searchAccount", params: { department: department, operation: this.operation } });
+      else if (this.operation === 2) // 編輯帳號
+        this.$router.push({ name: "editAccount", params: { department: department, operation: this.operation } });
     },
     goBack() {
       this.$router.push("/accountmanage");

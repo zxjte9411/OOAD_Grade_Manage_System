@@ -5,7 +5,7 @@
       <b-jumbotron class header="選擇你要的操作" lead>
         <b-button class="mt-5 mx-2" variant="primary" @click="goCreateAccoune">建立帳號</b-button>
         <b-button class="mt-5 mx-2" variant="primary" @click="goSearchAccount">查看帳號</b-button>
-        <b-button class="mt-5 mx-2" variant="primary" @click="goEditAccount">編輯帳號</b-button>
+        <!-- <b-button class="mt-5 mx-2" variant="primary" @click="goEditAccount">編輯帳號</b-button> -->
       </b-jumbotron>
     </div>
   </div>
@@ -112,13 +112,13 @@ export default {
   },
   methods: {
     goCreateAccoune() {
-      this.$router.push("/accountmanage/selectdepartment");
+      this.$router.push({ name: "selectdepartment", params: { operation: 0} });
     },
     goSearchAccount() {
-      this.$router.push("/accountmanage/selectdepartment");
+      this.$router.push({ name: "selectdepartment", params: { operation: 1} });
     },
     goEditAccount() {
-      this.$router.push("/accountmanage/selectdepartment");
+      this.$router.push({ name: "selectdepartment", params: { operation: 2} });
     },
     info(item, index, button) {
       this.infoModal.title = item.name;
