@@ -48,10 +48,6 @@
             return {
                 department: this.$route.params.department,
                 account: this.$route.params.account,
-                // genderOptions:[
-                //     { value: '男', text: '男' },
-                //     { value: '女', text: '女' },
-                // ],
                 authorityOptions: {
                      0: '管理員',
                      1: '教職員',
