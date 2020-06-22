@@ -71,7 +71,7 @@ export default {
       }
     },
     selectCourse(course) {
-      this.$router.push({ name: "result", params: { course: course } });
+      this.$router.push({ name: "resultOfSearchgrade", params: { course: course } });
     },
     toBack() {
       this.$router.push("/grademanage");

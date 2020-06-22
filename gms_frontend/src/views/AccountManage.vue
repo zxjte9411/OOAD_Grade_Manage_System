@@ -1,179 +1,175 @@
 <template>
   <div>
-    <b-container fluid class="my-3">
-      <!-- <ul v-for="(item, index) in students" :key="index">
-        <li>
-          {{ item.name }} {{ item.id }}
-          <input
-            type="number"
-            v-model.number="item.score"
-            value="item.score"
-          />
-        </li>
-      </ul>-->
-      <!-- Main table element -->
-      <b-card v-if="selected">
-        <!-- 成績表 -->
-        <b-table show-empty small stacked="md" :items="students" :fields="fields">
-          <template v-slot:cell(name)="row">{{ row.value }}</template>
-          <template v-slot:cell(grade)="row">{{ row.item.department_name }} {{ row.item.grade }}</template>
-          <template v-slot:cell(score)="row">
-            <input type="number" v-model.number="row.item.score" value="row.item.score" />
-          </template>
-        </b-table>
-        <!-- 成績表 end -->
-        <input type="button" value="送出" @click="submit(students)" />
-        <input type="button" value="返回" @click="selected=!selected" />
-      </b-card>
-      <b-card v-if="!selected">
-        <!-- 課程選單 -->
-        <ul v-for="(item, index) in courses" :key="index">
-          <b-button
-            variant="outline-success"
-            @click="selectCourse(item.id, item.year, item.semester)"
-          >{{ item.name }}</b-button>
-        </ul>
-        <!-- 課程選單 end -->
-      </b-card>
-    </b-container>
+    <NavBar />
+    <div>
+      <b-jumbotron class header="選擇你要的操作" lead>
+        <b-button class="mt-5 mx-2" variant="primary" @click="goCreateAccoune">建立帳號</b-button>
+        <b-button class="mt-5 mx-2" variant="primary" @click="goSearchAccount">查看帳號</b-button>
+        <!-- <b-button class="mt-5 mx-2" variant="primary" @click="goEditAccount">編輯帳號</b-button> -->
+      </b-jumbotron>
+    </div>
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
-import { async } from "q";
+import NavBar from "@/components/NavBar";
 
 export default {
   data() {
     return {
-      selected: false,
-      students: null,
-      courses: null,
-      course_id: null,
-      year: null,
-      semester: null,
+      newData: {
+        name: "",
+        account: "",
+        password: "",
+        eMail: "",
+        charactorId: "",
+        lineId: "",
+        userId: ""
+      },
+      CharactorSelect: 1,
+      items: [],
       fields: [
         {
-          key: "id",
-          label: "學號",
+          key: "name",
+          label: "使用者名稱",
           sortable: true,
           sortDirection: "desc"
         },
         {
-          key: "name",
-          label: "姓名",
+          key: "account",
+          label: "使用者帳號",
           sortable: true,
           class: "text-center"
         },
         {
-          key: "grade",
-          label: "年級",
+          key: "password",
+          label: "使用者密碼",
           sortable: true,
           sortDirection: "desc",
           class: "text-center"
         },
-        // {
-        //   key: "year",
-        //   label: "年度",
-        //   sortable: true
-        //   //   sortDirection: "desc",
-        //   //   class: "text-center",
-        //   //   formatter: (value /*, key, item*/) => {
-        //   //     return value
-        //   //       ? this.CharactorOptions[value].name
-        //   //       : this.CharactorOptions[0].name;
-        //   //   }
-        // },
         {
-          key: "score",
-          label: "分數",
+          key: "charactorId",
+          label: "使用者權限",
+          sortable: true,
+          sortDirection: "desc",
+          class: "text-center",
+          formatter: (value /*, key, item*/) => {
+            return value
+              ? this.CharactorOptions[value].name
+              : this.CharactorOptions[0].name;
+          }
+        },
+        {
+          key: "eMail",
+          label: "信箱",
           sortable: true,
           sortByFormatted: true,
           filterByFormatted: true
-        }
-        // { key: "actions", label: "操作" }
-      ]
+        },
+        { key: "actions", label: "操作" }
+      ],
+      CharactorOptions: [
+        { charactorId: 0, name: "--請選則--", notEnabled: true },
+        { charactorId: 1, name: "系統管理員" },
+        { charactorId: 2, name: "教職員工" },
+        { charactorId: 3, name: "教師" },
+        { charactorId: 4, name: "學生" }
+      ],
+      totalRows: 1,
+      currentPage: 1,
+      perPage: 10,
+      pageOptions: [10, 15, 20],
+      sortBy: "account",
+      sortDesc: false,
+      sortDirection: "asc",
+      filter: null,
+      filterOn: [],
+      infoModal: {
+        id: "info-modal",
+        title: "",
+        content: ""
+      },
+      deleteItem: null
     };
   },
-  mounted() {
-    this.getTeacherCourses();
+  mounted() {},
+  computed: {
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => {
+          return { text: f.label, value: f.key };
+        });
+    }
   },
-  computed: {},
+  components: {
+    NavBar,
+  },
   methods: {
-    async getStudentsData(course_id = "275689") {
-      this.course_id = course_id;
-      let response = await axios
-        .get(
-          `${process.env.VUE_APP_APIPATH}/api/students/course/${course_id}`,
-          {
-            headers: {
-              "content-type": "application/json;charset=utf-8"
-            }
-          }
-        )
-        .then(async res => {
-          return await res;
-        })
-        .catch(async err => {
-          return await err.response;
-        });
-      this.students = response.data;
-      console.log(response.data);
+    goCreateAccoune() {
+      this.$router.push({ name: "selectdepartment", params: { operation: 0} });
     },
-    async getTeacherCourses(teacher_id = "54321") {
-      let response = await axios
-        .get(
-          `${process.env.VUE_APP_APIPATH}/api/teachers/${teacher_id}/courses`,
-          {
-            headers: {
-              "content-type": "application/json;charset=utf-8"
-            }
-          }
-        )
-        .then(async res => {
-          return await res;
-        })
-        .catch(async err => {
-          return await err.response;
-        });
-      this.courses = response.data;
-      console.log(response.data);
+    goSearchAccount() {
+      this.$router.push({ name: "selectdepartment", params: { operation: 1} });
     },
-    async submit() {
-      this.selected = !this.selected
-      const data = {};
-      this.students.forEach(student => {
-        data[student.id] = student.score
+    goEditAccount() {
+      this.$router.push({ name: "selectdepartment", params: { operation: 2} });
+    },
+    info(item, index, button) {
+      this.infoModal.title = item.name;
+      this.newData.name = item.name;
+      this.newData.charactorId = item.charactorId ? item.charactorId : 0;
+      this.newData.eMail = item.eMail;
+      this.newData.lineId = item.lineId;
+      this.newData.account = item.account;
+      this.newData.password = item.password;
+      this.newData.userId = item.id;
+      this.infoModal.content = JSON.stringify(item, null, 2);
+      // this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+      this.$bvModal.show(this.infoModal.id);
+    },
+    resetInfoModal() {
+      this.infoModal.title = "";
+      this.infoModal.content = "";
+      this.newData = {
+        name: "",
+        account: "",
+        password: "",
+        eMail: "",
+        charactorId: "",
+        lineId: "",
+        userId: ""
+      };
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
+    openAddModal() {
+      this.$bvModal.show("addAccountModal");
+    },
+    createUser() {
+      this.fetchData();
+      this.$bvModal.hide("addAccountModal");
+      this.makeToast("success", "成功建立帳號");
+    },
+    makeToast(
+      variant = null,
+      message = "",
+      title = "",
+      toaster = "b-toaster-top-right"
+    ) {
+      this.$bvToast.toast(message, {
+        title: title,
+        toaster: toaster,
+        variant: variant,
+        solid: true
       });
-      let response = await axios
-        .post(
-          `${process.env.VUE_APP_APIPATH}/api/students/grade/${this.course_id}/${this.year}/${this.semester}`,
-          data,
-          {
-            headers: {
-              "content-type": "application/json;charset=utf-8"
-            }
-          }
-        )
-        .then(async res => {
-          return await res;
-        })
-        .catch(async err => {
-          return await err;
-        });
-        console.log(response)
-    },
-    selectCourse(course_id, year, semester) {
-      console.log([course_id, year, semester]);
-      this.course_id = course_id;
-      this.year = year;
-      this.semester = semester;
-      this.selected = !this.selected;
-      this.getStudentsData(course_id);
-    },
-    print(p) {
-      this.selected = !this.selected;
-      console.log(p);
     }
   }
 };

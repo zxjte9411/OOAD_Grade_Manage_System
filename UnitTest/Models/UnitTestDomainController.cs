@@ -129,7 +129,7 @@ namespace GradeManageSystem.Models.Tests
         }
 
         [TestMethod()]
-        public void TestGetCourseGradeList()
+        public void TestGetScoreTableByCourse()
         {
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
             Student student = (Student)accounts[0];

@@ -101,8 +101,8 @@ namespace GradeManageSystem.Models
 
         private Account CreateAdmin(AccountModel newAccount, int year)
         {
-            Administrator administrator = new Administrator(year + Id.PadLeft(3, '0'), "", 0, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
-            administrator.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority), year) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            Administrator administrator = new Administrator("", "", 0, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
+            administrator.Id = string.Format("{0:000000}", (new Random()).Next(100000));//產生 6 位數字亂數, 左側不滿位數補0的字串產生方式
             administrator.Password = administrator.Id; // 密碼預設為帳號 ID
             Accounts.Add(administrator);
             return administrator;
@@ -110,8 +110,8 @@ namespace GradeManageSystem.Models
 
         private Account CreateAcadamicAffair(AccountModel newAccount, int year)
         {
-            AcadamicAffairs acadamicAffair = new AcadamicAffairs(year + Id.PadLeft(3, '0'), "", 1, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
-            acadamicAffair.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority), year) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            AcadamicAffairs acadamicAffair = new AcadamicAffairs("", "", 1, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
+            acadamicAffair.Id = string.Format("{0:000000}", (new Random()).Next(100000));//產生 6 位數字亂數, 左側不滿位數補0的字串產生方式
             acadamicAffair.Password = acadamicAffair.Id; // 密碼預設為帳號 ID
             Accounts.Add(acadamicAffair);
             return acadamicAffair;
@@ -119,8 +119,8 @@ namespace GradeManageSystem.Models
 
         private Account CreateTeacher(AccountModel newAccount, int year)
         {
-            Administrator administrator = new Administrator(year + Id.PadLeft(3, '0'), "", 2, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
-            administrator.Id += (GetMaxId(GetAccountsByAuthority(newAccount.Authority), year) + 1).ToString().PadLeft(3, '0'); // 從已存在的帳號中找到最大的 ID 後三碼，再從這三碼左邊補 3 個 0
+            Administrator administrator = new Administrator("", "", 2, newAccount.UserInformation); // 依照帳號身分建立對應的帳號
+            administrator.Id = string.Format("{0:000000}", (new Random()).Next(100000));//產生 6 位數字亂數, 左側不滿位數補0的字串產生方式
             administrator.Password = administrator.Id; // 密碼預設為帳號 ID
             Accounts.Add(administrator);
             return administrator;

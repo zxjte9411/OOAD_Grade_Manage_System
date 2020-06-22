@@ -22,7 +22,10 @@ Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
   const isLogin = localStorage.getItem('token') !== null;
   if (isLogin) {
-    next();
+    if (to.path === '/') // 回到首頁後自動導向該身份可操作的畫面
+      next('/login');
+    else
+      next();
   } else {
     if (to.path !== '/login')
       next('/login');
