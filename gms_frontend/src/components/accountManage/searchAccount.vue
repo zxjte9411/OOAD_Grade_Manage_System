@@ -122,7 +122,7 @@
                             <b-form-input id="name" v-model="newData.userInformation.name" disabled />
                         </b-form-group>
                         <b-form-group id="authority-group" label="身份" label-for="authority">
-                            <b-form-input v-model="newData.authority" :options="authorityOptions" value-field="authority" text-field="name" disabled></b-form-input>
+                            <b-form-select v-model="newData.authority" :options="authorityOptions" value-field="authority" text-field="name" disabled></b-form-select>
                         </b-form-group>
                         <b-form-group id="phone-group" label="電話" label-for="phone">
                             <b-form-input id="phone" v-model="newData.userInformation.phone" disabled />
@@ -140,11 +140,11 @@
                 </b-modal>
                 <!-- detail modal END-->
                 <!-- check delete modal-->
-                <b-modal id="check-delete-modal" hide-footer>
+                <!-- <b-modal id="check-delete-modal" hide-footer>
                     <b-alert show variant="warning" class="text-center">確定刪除？</b-alert>
                     <b-button class="float-right" @click="deleteAccount(false)">取消</b-button>
                     <b-button variant="danger" class="float-right mr-2" @click="deleteAccount(true)">確定</b-button>
-                </b-modal>
+                </b-modal> -->
                 <!-- check delete modal END-->
             </b-card>
             <b-button variant="primary" @click="goBack" class="mt-4">返回</b-button>
