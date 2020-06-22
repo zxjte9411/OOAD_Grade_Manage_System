@@ -33,6 +33,7 @@
                     </b-card>
                 </b-col>
             </b-row>
+            <b-button variant="primary" @click="goBack" class="mt-4">返回</b-button>
         </b-container>
     </div>
 </template>
@@ -56,5 +57,10 @@
                 },
             };
         },
+        methods:{
+            goBack(){
+                this.$router.push({name: "AccountManage"})
+            }
+        }
     }
 </script>
