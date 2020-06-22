@@ -155,7 +155,6 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import axios from "axios";
-import { async } from "q";
 
 export default {
     data() {

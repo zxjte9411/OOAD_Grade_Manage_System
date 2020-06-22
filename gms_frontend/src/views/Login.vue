@@ -47,13 +47,12 @@
               </b-modal>
             </b-card>
           </b-card-group>
-          <p class="mt-5 mb-3 text-muted">© 2020-202</p>
+          <p class="mt-5 mb-3 text-muted">© 2020-2020</p>
         </b-form>
       </b-row>
     </b-container>
 </template>
 <script>
-import { async } from "q";
 const axios = require("axios").default;
 
 export default {
@@ -108,7 +107,7 @@ export default {
         this.$router.push("/accountmanage");
       }
       if (authority === "1") {
-        this.$router.push("/accountmanage");
+        this.$router.push({name: "acadamicAffairSearchGradeMainPage"});
       }
       if (authority === "2") {
         this.$router.push("/grademanage");

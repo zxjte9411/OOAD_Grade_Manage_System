@@ -103,7 +103,6 @@
                         return error.response
                     });
                 if(response.status >= 200 && response.status < 300){
-                    console.log(response.data)
                     this.$router.push({ name: "resultOfCreateAccount", params: { account: this.account,  department: this.department} });
 
                 } else {

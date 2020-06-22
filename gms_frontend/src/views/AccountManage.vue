@@ -14,7 +14,6 @@
 
 <script>
 import axios from "axios";
-import { async } from "q";
 import NavBar from "@/components/NavBar";
 
 export default {
