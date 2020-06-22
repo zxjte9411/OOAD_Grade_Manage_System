@@ -67,6 +67,16 @@ export default new Router({
     name: 'resultOfCreateAccount',
     component: () => import('./components/accountManage/result.vue')
   },
+  {
+    path: '/grademanage/student/',
+    name: 'studentSearchgradeMainPage',
+    component: () => import('./components/studentSearchGrade/student.vue')
+  },
+  {
+    path: '/grademanage/student/searchgrade',
+    name: 'studentSearchgrade',
+    component: () => import('./components/studentSearchGrade/searchGrade.vue')
+  },
   
   {
     path: '/test',

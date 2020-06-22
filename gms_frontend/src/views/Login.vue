@@ -114,7 +114,7 @@ export default {
         this.$router.push("/grademanage");
       }
       if (authority === "3") {
-        this.$router.push("/grademanage");
+        this.$router.push({name: "studentSearchgradeMainPage"});
       }
     }
   },
