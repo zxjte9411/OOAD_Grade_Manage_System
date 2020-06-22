@@ -22,7 +22,7 @@
                             </b-col>
                             <b-col>
                                 <label for="input-phone">電話</label>
-                                <b-form-input v-model="account.userInformation.phone" id="input-phone" type="number" required trim></b-form-input>
+                                <b-form-input v-model="account.userInformation.phone" id="input-phone" required trim></b-form-input>
                             </b-col>
                         </b-row>
                         <b-row class="pb-3">
@@ -56,9 +56,6 @@
     import NavBar from '@/components/NavBar.vue';
 
     export default {
-        components: {
-            NavBar
-        },
         data() {
             return {
                 department: this.$route.params.department,
@@ -83,6 +80,9 @@
                     { value: 3, text: '學　生' }
                 ],
             };
+        },
+        components: {
+            NavBar
         },
         methods: {
             async submit(){
